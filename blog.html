@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Maderas Montoya — Estibas, Logística y Sostenibilidad</title>
+  <meta name="description" content="Blog de Maderas Montoya: consejos de mantenimiento de estibas, guías de logística, sostenibilidad y economía circular para empresas colombianas.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://maderasmontoya.com/blog.html">
+  <meta property="og:title" content="Blog Maderas Montoya — Estibas, Logística y Sostenibilidad">
+  <meta property="og:description" content="Consejos, guías y tendencias sobre estibas de madera para empresas colombianas.">
+  <meta property="og:image" content="https://maderasmontoya.com/img/logo.png">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:        #1A0A03;
+      --rich-brown:  #2C1206;
+      --wood-brown:  #5C2E0A;
+      --sienna:      #8B4513;
+      --orange-wood: #C8651B;
+      --amber:       #D4843A;
+      --light-amber: #E8A85A;
+      --cream:       #F5EDD6;
+      --off-white:   #FFF9F2;
+      --green-dark:  #1B4216;
+      --green:       #2E6025;
+      --green-mid:   #4A7C3F;
+      --green-light: #6BA05C;
+      --font-h: 'Montserrat', sans-serif;
+      --font-b: 'Open Sans', sans-serif;
+      --ease:   cubic-bezier(0.16, 1, 0.3, 1);
+      --t:      0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: var(--font-b); color: var(--dark); background: var(--off-white); line-height: 1.6; overflow-x: hidden; }
+    h1,h2,h3,h4,h5 { font-family: var(--font-h); line-height: 1.15; letter-spacing: -.02em; }
+    a { color: inherit; }
+    img { display: block; }
+
+    .container { width: min(92%, 1280px); margin: 0 auto; }
+
+    /* ── Reveal ── */
+    .reveal, .reveal-left, .reveal-right { opacity: 0; transition: opacity .7s ease, transform .7s var(--ease); }
+    .reveal       { transform: translateY(24px); }
+    .reveal-left  { transform: translateX(-24px); }
+    .reveal-right { transform: translateX(24px); }
+    .reveal.visible, .reveal-left.visible, .reveal-right.visible { opacity: 1; transform: none; }
+    .d1{transition-delay:.10s}.d2{transition-delay:.20s}.d3{transition-delay:.30s}.d4{transition-delay:.40s}.d5{transition-delay:.50s}
+
+    /* ── Tags & labels ── */
+    .section-tag {
+      display: inline-block; font-family: var(--font-h); font-size: .68rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--orange-wood);
+      background: rgba(200,101,27,.09); padding: .35rem .85rem; border-radius: 2rem;
+      border: 1px solid rgba(200,101,27,.2); margin-bottom: 1rem;
+    }
+    .section-title { font-size: clamp(2rem,4vw,3rem); font-weight: 800; color: var(--rich-brown); margin-bottom: .9rem; }
+    .section-subtitle { font-size: clamp(.95rem,1.4vw,1.1rem); color: var(--sienna); max-width: 54ch; line-height: 1.75; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .8rem 1.6rem; border-radius: .5rem; font-family: var(--font-h);
+      font-weight: 600; font-size: .88rem; cursor: pointer; border: none;
+      text-decoration: none; transition: transform var(--t), box-shadow var(--t), background var(--t);
+      line-height: 1;
+    }
+    .btn:active { transform: translateY(1px) scale(.98) !important; }
+    .btn-primary { background: var(--orange-wood); color: #fff; box-shadow: 0 4px 16px rgba(200,101,27,.32); }
+    .btn-primary:hover { background: #b5560f; transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--orange-wood); border: 2px solid var(--orange-wood); }
+    .btn-outline:hover { background: var(--orange-wood); color: #fff; transform: translateY(-2px); }
+
+    /* ══════════════════ NAVBAR ══════════════════ */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.2rem 0; transition: background var(--t), box-shadow var(--t), padding var(--t);
+      background: rgba(26,10,3,.97); backdrop-filter: blur(14px);
+      box-shadow: 0 2px 20px rgba(0,0,0,.28);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-logo { text-decoration: none; display: flex; align-items: center; gap: .7rem; }
+    .nav-logo-img { width: 2.8rem; height: 2.8rem; object-fit: contain; flex-shrink: 0; transition: transform var(--t); }
+    .nav-logo:hover .nav-logo-img { transform: scale(1.06); }
+    .nav-logo-main { font-family: var(--font-h); font-weight: 900; font-size: 1.3rem; color: #fff; letter-spacing: -.02em; line-height: 1; display: block; }
+    .nav-logo-main span { color: var(--amber); }
+    .nav-logo-sub { font-family: var(--font-b); font-size: .6rem; color: rgba(255,255,255,.45); letter-spacing: .1em; text-transform: uppercase; margin-top: .18rem; display: block; }
+    .nav-links { display: flex; align-items: center; gap: .2rem; list-style: none; }
+    .nav-links a { font-family: var(--font-h); font-size: .8rem; font-weight: 500; color: rgba(255,255,255,.72); text-decoration: none; padding: .45rem .75rem; border-radius: .4rem; transition: color var(--t), background var(--t); }
+    .nav-links a:hover, .nav-links a.active { color: #fff; background: rgba(255,255,255,.08); }
+    .nav-cta { background: var(--orange-wood) !important; color: #fff !important; padding: .5rem 1.1rem !important; }
+    .nav-cta:hover { background: #b5560f !important; transform: translateY(-1px); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: .5rem; z-index: 102; position: relative; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: transform var(--t), opacity var(--t); }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ══════════════════ BLOG HERO ══════════════════ */
+    #blog-hero {
+      padding: 9rem 0 5rem;
+      background-color: var(--rich-brown);
+      background-image:
+        linear-gradient(to bottom, rgba(26,10,3,.88) 0%, rgba(26,10,3,.75) 100%),
+        url('img/warehouse.jpeg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #blog-hero::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+      background: linear-gradient(to top, var(--off-white), transparent);
+    }
+    .blog-hero-inner { max-width: 720px; }
+    .blog-hero-inner .section-tag { background: rgba(212,132,58,.14); border-color: rgba(212,132,58,.22); color: var(--amber); }
+    .blog-hero-inner h1 { font-size: clamp(2.4rem,5vw,4rem); font-weight: 900; color: #fff; margin-bottom: 1rem; }
+    .blog-hero-inner p { font-size: clamp(.95rem,1.4vw,1.15rem); color: rgba(255,255,255,.68); max-width: 52ch; line-height: 1.75; }
+
+    /* ══════════════════ FILTROS ══════════════════ */
+    #filtros { padding: 3rem 0 1.5rem; background: var(--off-white); }
+    .filtros-wrap { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+    .filtro-btn {
+      font-family: var(--font-h); font-size: .78rem; font-weight: 600;
+      padding: .5rem 1.1rem; border-radius: 2rem;
+      border: 1.5px solid rgba(100,60,20,.18); background: transparent;
+      color: var(--sienna); cursor: pointer;
+      transition: background var(--t), color var(--t), border-color var(--t);
+    }
+    .filtro-btn:hover, .filtro-btn.active {
+      background: var(--orange-wood); color: #fff; border-color: var(--orange-wood);
+    }
+
+    /* ══════════════════ ARTÍCULO DESTACADO ══════════════════ */
+    #destacado { padding: 2rem 0 0; background: var(--off-white); }
+
+    .art-featured {
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 0;
+      background: #fff; border-radius: 1.5rem; overflow: hidden;
+      border: 1px solid rgba(100,60,20,.1); box-shadow: 0 4px 28px rgba(60,30,10,.08);
+      transition: transform var(--t), box-shadow var(--t);
+    }
+    .art-featured:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(60,30,10,.13); }
+
+    .art-featured-img { position: relative; min-height: 380px; overflow: hidden; }
+    .art-featured-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+    .art-featured:hover .art-featured-img img { transform: scale(1.04); }
+    .art-featured-badge {
+      position: absolute; top: 1.25rem; left: 1.25rem;
+      background: var(--orange-wood); color: #fff;
+      font-family: var(--font-h); font-size: .65rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: .32rem .8rem; border-radius: 2rem;
+    }
+
+    .art-featured-body {
+      padding: 2.5rem 2.75rem;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .art-cat {
+      font-family: var(--font-h); font-size: .68rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--orange-wood); margin-bottom: .75rem; display: block;
+    }
+    .art-featured-body h2 { font-size: clamp(1.4rem,2.2vw,1.9rem); font-weight: 800; color: var(--rich-brown); margin-bottom: 1rem; line-height: 1.25; }
+    .art-featured-body p { font-size: .92rem; color: var(--sienna); line-height: 1.78; margin-bottom: 1.75rem; }
+    .art-meta { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.75rem; }
+    .art-meta span { font-size: .78rem; color: var(--sienna); display: flex; align-items: center; gap: .4rem; }
+    .art-meta i { color: var(--orange-wood); font-size: .7rem; }
+
+    /* ══════════════════ GRID DE ARTÍCULOS ══════════════════ */
+    #articulos { padding: 3rem 0 clamp(4rem,8vw,7rem); background: var(--off-white); }
+
+    .articles-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
+    }
+
+    .art-card {
+      background: #fff; border-radius: 1.25rem; overflow: hidden;
+      border: 1px solid rgba(100,60,20,.1); box-shadow: 0 2px 12px rgba(60,30,10,.06);
+      display: flex; flex-direction: column;
+      transition: transform var(--t), box-shadow var(--t);
+      text-decoration: none; color: inherit;
+    }
+    .art-card:hover { transform: translateY(-6px); box-shadow: 0 18px 45px rgba(60,30,10,.12); }
+
+    .art-card-img { overflow: hidden; position: relative; }
+    .art-card-img img { width: 100%; height: 200px; object-fit: cover; transition: transform .6s var(--ease); }
+    .art-card:hover .art-card-img img { transform: scale(1.06); }
+    .art-card-cat {
+      position: absolute; bottom: .85rem; left: .85rem;
+      background: rgba(26,10,3,.78); backdrop-filter: blur(6px);
+      color: var(--light-amber); font-family: var(--font-h);
+      font-size: .62rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; padding: .28rem .7rem; border-radius: 2rem;
+    }
+
+    .art-card-body { padding: 1.4rem 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .art-card-body h3 { font-size: 1rem; font-weight: 800; color: var(--rich-brown); line-height: 1.35; margin-bottom: .65rem; }
+    .art-card-body p { font-size: .84rem; color: var(--sienna); line-height: 1.7; flex: 1; margin-bottom: 1.1rem; }
+
+    .art-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid rgba(100,60,20,.08); }
+    .art-card-date { font-size: .75rem; color: var(--sienna); display: flex; align-items: center; gap: .35rem; }
+    .art-card-date i { color: var(--orange-wood); font-size: .68rem; }
+    .art-read { font-family: var(--font-h); font-size: .75rem; font-weight: 700; color: var(--orange-wood); display: flex; align-items: center; gap: .3rem; transition: gap var(--t); }
+    .art-card:hover .art-read { gap: .55rem; }
+
+    /* ══════════════════ PRÓXIMAMENTE ══════════════════ */
+    .art-card.coming-soon { opacity: .55; pointer-events: none; }
+    .coming-badge {
+      position: absolute; top: .85rem; right: .85rem;
+      background: rgba(26,10,3,.7); color: rgba(255,255,255,.7);
+      font-family: var(--font-h); font-size: .6rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: .25rem .65rem; border-radius: 2rem;
+    }
+
+    /* ══════════════════ CTA BANNER ══════════════════ */
+    #blog-cta {
+      padding: clamp(4rem,7vw,6rem) 0;
+      background: var(--rich-brown);
+      position: relative; overflow: hidden;
+    }
+    #blog-cta::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(200,101,27,.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .blog-cta-inner {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 3rem; align-items: center;
+    }
+    .blog-cta-inner h2 { font-size: clamp(1.6rem,3vw,2.4rem); font-weight: 800; color: #fff; margin-bottom: .6rem; }
+    .blog-cta-inner p { font-size: .95rem; color: rgba(255,255,255,.62); line-height: 1.7; max-width: 50ch; }
+    .blog-cta-btns { display: flex; gap: 1rem; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+    .btn-white { background: #fff; color: var(--rich-brown); }
+    .btn-white:hover { background: var(--cream); transform: translateY(-2px); }
+
+    /* ══════════════════ FOOTER ══════════════════ */
+    #footer { background: var(--dark); padding: 4rem 0 2rem; position: relative; z-index: 2; }
+    .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .ft-logo-wrap { display: flex; align-items: center; gap: .75rem; margin-bottom: .9rem; }
+    .ft-logo-img { width: 3.4rem; height: 3.4rem; object-fit: contain; flex-shrink: 0; }
+    .ft-logo-main { font-family: var(--font-h); font-weight: 900; font-size: 1.25rem; color: #fff; letter-spacing: -.02em; }
+    .ft-logo-main span { color: var(--amber); }
+    .ft-brand p { font-size: .83rem; color: rgba(255,255,255,.42); line-height: 1.7; margin-bottom: 1.4rem; max-width: 30ch; }
+    .ft-social { display: flex; gap: .55rem; }
+    .ft-social a { width: 2.2rem; height: 2.2rem; background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.075); border-radius: .5rem; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.45); font-size: .82rem; text-decoration: none; transition: background var(--t), color var(--t), border-color var(--t); }
+    .ft-social a:hover { background: rgba(200,101,27,.15); color: var(--amber); border-color: rgba(200,101,27,.22); }
+    .ft-col h4 { font-family: var(--font-h); font-size: .75rem; font-weight: 700; color: rgba(255,255,255,.5); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 1rem; }
+    .ft-col ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+    .ft-col ul a { font-size: .83rem; color: rgba(255,255,255,.42); text-decoration: none; transition: color var(--t); }
+    .ft-col ul a:hover { color: rgba(255,255,255,.82); }
+    .ft-col ul li { display: flex; align-items: flex-start; gap: .5rem; }
+    .ft-col ul li i { color: var(--orange-wood); font-size: .72rem; margin-top: .22rem; flex-shrink: 0; }
+    .ft-col ul li span { font-size: .82rem; color: rgba(255,255,255,.42); line-height: 1.5; }
+    .footer-bottom { padding-top: 1.7rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .footer-bottom p { font-size: .78rem; color: rgba(255,255,255,.28); }
+    .footer-btm-links { display: flex; gap: 1.5rem; }
+    .footer-btm-links a { font-size: .76rem; color: rgba(255,255,255,.28); text-decoration: none; transition: color var(--t); }
+    .footer-btm-links a:hover { color: rgba(255,255,255,.6); }
+
+    /* ══════════════════ WHATSAPP ══════════════════ */
+    .wa-float { position: fixed; bottom: 2rem; right: 2rem; z-index: 200; display: flex; align-items: center; gap: .75rem; text-decoration: none; }
+    .wa-tip { background: var(--rich-brown); color: #fff; font-family: var(--font-h); font-size: .76rem; font-weight: 600; padding: .55rem .95rem; border-radius: .5rem; white-space: nowrap; opacity: 0; transform: translateX(8px); transition: opacity var(--t), transform var(--t); pointer-events: none; box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+    .wa-float:hover .wa-tip { opacity: 1; transform: translateX(0); }
+    .wa-btn { width: 3.4rem; height: 3.4rem; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.45rem; box-shadow: 0 4px 16px rgba(37,211,102,.38); transition: transform var(--t); animation: wa-pulse 2.5s ease-in-out infinite; }
+    .wa-float:hover .wa-btn { transform: scale(1.1); animation: none; }
+    @keyframes wa-pulse { 0%,100%{box-shadow:0 4px 16px rgba(37,211,102,.38)}50%{box-shadow:0 4px 26px rgba(37,211,102,.6)} }
+
+    /* ══════════════════ RESPONSIVE ══════════════════ */
+    @media (max-width: 1100px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+    @media (max-width: 900px) {
+      .art-featured { grid-template-columns: 1fr; }
+      .art-featured-img { min-height: 260px; }
+      .articles-grid { grid-template-columns: 1fr 1fr; }
+      .blog-cta-inner { grid-template-columns: 1fr; }
+      .blog-cta-btns { justify-content: flex-start; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; position: fixed; inset: 0; background: rgba(26,10,3,.98); flex-direction: column; justify-content: center; align-items: center; gap: .4rem; z-index: 99; }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.1rem; padding: .75rem 1.5rem; }
+      .hamburger { display: flex; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 580px) {
+      .articles-grid { grid-template-columns: 1fr; }
+      .filtros-wrap { gap: .45rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════ NAVBAR ═══════════════ -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <img src="img/logo.png" alt="Maderas Montoya" class="nav-logo-img">
+          <div>
+            <span class="nav-logo-main">Maderas <span>Montoya</span></span>
+            <span class="nav-logo-sub">Estibas de madera · Soacha</span>
+          </div>
+        </a>
+
+        <ul class="nav-links" id="navLinks">
+          <li><a href="index.html#nosotros">Nosotros</a></li>
+          <li><a href="index.html#productos">Productos</a></li>
+          <li><a href="index.html#servicios">Servicios</a></li>
+          <li><a href="blog.html" class="active">Blog</a></li>
+          <li><a href="index.html#contacto" class="nav-cta btn">Cotizar ahora</a></li>
+        </ul>
+
+        <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <section id="blog-hero">
+    <div class="container">
+      <div class="blog-hero-inner">
+        <span class="section-tag reveal">Blog & Recursos</span>
+        <h1 class="reveal d1">Aprende sobre estibas,<br>logística y sostenibilidad</h1>
+        <p class="reveal d2">
+          Consejos prácticos, guías técnicas y tendencias del sector
+          para empresas que quieren optimizar su operación logística.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FILTROS ═══════════════ -->
+  <section id="filtros">
+    <div class="container">
+      <div class="filtros-wrap">
+        <button class="filtro-btn active" data-cat="todos">Todos</button>
+        <button class="filtro-btn" data-cat="mantenimiento">Mantenimiento</button>
+        <button class="filtro-btn" data-cat="sostenibilidad">Sostenibilidad</button>
+        <button class="filtro-btn" data-cat="logistica">Logística</button>
+        <button class="filtro-btn" data-cat="guias">Guías</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ ARTÍCULO DESTACADO ═══════════════ -->
+  <section id="destacado">
+    <div class="container">
+      <a href="#" class="art-featured reveal" data-cat="mantenimiento">
+        <div class="art-featured-img">
+          <img src="img/reparacion.jpeg" alt="Reparación de estibas" loading="lazy">
+          <span class="art-featured-badge">Destacado</span>
+        </div>
+        <div class="art-featured-body">
+          <span class="art-cat">Mantenimiento</span>
+          <h2>5 señales de que tu estiba necesita reparación urgente</h2>
+          <p>
+            Una estiba dañada puede generar accidentes, pérdida de producto y
+            sobrecostos. Aprende a identificar a tiempo los indicadores clave antes
+            de que el problema se vuelva más costoso de solucionar.
+          </p>
+          <div class="art-meta">
+            <span><i class="fas fa-calendar-alt"></i> Próximamente</span>
+            <span><i class="fas fa-clock"></i> 5 min de lectura</span>
+          </div>
+          <span class="btn btn-primary" style="width:fit-content;">
+            <i class="fas fa-book-open"></i> Leer artículo
+          </span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══════════════ GRID DE ARTÍCULOS ═══════════════ -->
+  <section id="articulos">
+    <div class="container">
+
+      <div class="articles-grid">
+
+        <!-- Artículo 1 -->
+        <a href="#" class="art-card reveal d1" data-cat="logistica">
+          <div class="art-card-img">
+            <img src="img/warehouse.jpeg" alt="Bodega con estibas" loading="lazy">
+            <span class="art-card-cat">Logística</span>
+            <span class="coming-badge">Próximamente</span>
+          </div>
+          <div class="art-card-body">
+            <h3>Cómo calcular el ahorro real al reparar vs comprar estibas nuevas</h3>
+            <p>Una guía paso a paso para que tu área de compras presente números concretos y justifique la inversión en mantenimiento.</p>
+            <div class="art-card-footer">
+              <span class="art-card-date"><i class="fas fa-calendar-alt"></i> Próximamente</span>
+              <span class="art-read">Leer <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Artículo 2 -->
+        <a href="#" class="art-card reveal d2" data-cat="sostenibilidad">
+          <div class="art-card-img">
+            <img src="img/central-estibas.png" alt="Estibas almacenadas" loading="lazy">
+            <span class="art-card-cat">Sostenibilidad</span>
+            <span class="coming-badge">Próximamente</span>
+          </div>
+          <div class="art-card-body">
+            <h3>Economía circular aplicada a la logística de almacenamiento</h3>
+            <p>Cómo el modelo de reutilización de estibas reduce el impacto ambiental de tu empresa y fortalece tus indicadores ESG.</p>
+            <div class="art-card-footer">
+              <span class="art-card-date"><i class="fas fa-calendar-alt"></i> Próximamente</span>
+              <span class="art-read">Leer <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Artículo 3 -->
+        <a href="#" class="art-card reveal d3" data-cat="guias">
+          <div class="art-card-img">
+            <img src="img/trabajo.jpeg" alt="Técnico reparando estiba" loading="lazy">
+            <span class="art-card-cat">Guías</span>
+            <span class="coming-badge">Próximamente</span>
+          </div>
+          <div class="art-card-body">
+            <h3>Guía de mantenimiento preventivo para estibas de alto tráfico</h3>
+            <p>Todo lo que necesitas saber para implementar un plan de revisión periódica que extienda la vida útil de tu flota de estibas.</p>
+            <div class="art-card-footer">
+              <span class="art-card-date"><i class="fas fa-calendar-alt"></i> Próximamente</span>
+              <span class="art-read">Leer <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Artículo 4 -->
+        <a href="#" class="art-card reveal d1" data-cat="guias">
+          <div class="art-card-img">
+            <img src="img/hero-right.jpeg" alt="Bodega de almacenamiento" loading="lazy">
+            <span class="art-card-cat">Guías</span>
+            <span class="coming-badge">Próximamente</span>
+          </div>
+          <div class="art-card-body">
+            <h3>Tipos de estibas de madera y cuál elegir según tu operación</h3>
+            <p>Tipo Norma, tráfico liviano, estibas europeas — diferencias técnicas y casos de uso para que elijas la opción correcta.</p>
+            <div class="art-card-footer">
+              <span class="art-card-date"><i class="fas fa-calendar-alt"></i> Próximamente</span>
+              <span class="art-read">Leer <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Artículo 5 -->
+        <a href="#" class="art-card reveal d2" data-cat="mantenimiento">
+          <div class="art-card-img">
+            <img src="img/team.jpeg" alt="Equipo Maderas Montoya" loading="lazy">
+            <span class="art-card-cat">Mantenimiento</span>
+            <span class="coming-badge">Próximamente</span>
+          </div>
+          <div class="art-card-body">
+            <h3>¿Cada cuánto debo revisar mis estibas? Frecuencia ideal según el uso</h3>
+            <p>La frecuencia de inspección depende del tipo de carga, el movimiento diario y las condiciones del almacén. Aquí te lo explicamos.</p>
+            <div class="art-card-footer">
+              <span class="art-card-date"><i class="fas fa-calendar-alt"></i> Próximamente</span>
+              <span class="art-read">Leer <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Artículo 6 -->
+        <a href="#" class="art-card reveal d3" data-cat="sostenibilidad">
+          <div class="art-card-img">
+            <img src="img/recoleccion.jpeg" alt="Recolección de estibas" loading="lazy">
+            <span class="art-card-cat">Sostenibilidad</span>
+            <span class="coming-badge">Próximamente</span>
+          </div>
+          <div class="art-card-body">
+            <h3>Qué hacer con la madera en desuso: opciones responsables para empresas</h3>
+            <p>Desde donación hasta reciclaje industrial, te mostramos las alternativas sostenibles para gestionar los residuos de madera en tu planta.</p>
+            <div class="art-card-footer">
+              <span class="art-card-date"><i class="fas fa-calendar-alt"></i> Próximamente</span>
+              <span class="art-read">Leer <i class="fas fa-arrow-right"></i></span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CTA ═══════════════ -->
+  <section id="blog-cta">
+    <div class="container">
+      <div class="blog-cta-inner reveal">
+        <div>
+          <h2>¿Tienes una consulta sobre tu operación?</h2>
+          <p>Nuestro equipo te asesora sin costo. Cuéntanos qué necesitas y te respondemos con una propuesta a la medida.</p>
+        </div>
+        <div class="blog-cta-btns">
+          <a href="index.html#contacto" class="btn btn-white">
+            <i class="fas fa-file-invoice"></i> Solicitar cotización
+          </a>
+          <a href="https://wa.me/573016302712?text=Hola%2C%20leí%20el%20blog%20de%20Maderas%20Montoya%20y%20tengo%20una%20consulta"
+             target="_blank" rel="noopener" class="btn btn-primary">
+            <i class="fab fa-whatsapp"></i> Escribir por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-grid">
+
+        <div class="ft-brand">
+          <div class="ft-logo-wrap">
+            <img src="img/logo.png" alt="Maderas Montoya" class="ft-logo-img">
+            <div class="ft-logo-main">Maderas <span>Montoya</span></div>
+          </div>
+          <p>Especialistas en compra, venta y reparación de estibas de madera. Comprometidos con la calidad y la responsabilidad ambiental.</p>
+          <div class="ft-social">
+            <a href="https://www.facebook.com/profile.php?id=61561060378544" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/maderas_montoya?igsh=cHZ0YXJwbWwxdnJm" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@maderas_montoya" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="https://wa.me/573016302712" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <div class="ft-col">
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="index.html#nosotros">Nosotros</a></li>
+            <li><a href="index.html#productos">Productos</a></li>
+            <li><a href="index.html#servicios">Servicios</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="index.html#contacto">Contacto</a></li>
+          </ul>
+        </div>
+
+        <div class="ft-col">
+          <h4>Categorías Blog</h4>
+          <ul>
+            <li><a href="#">Mantenimiento</a></li>
+            <li><a href="#">Sostenibilidad</a></li>
+            <li><a href="#">Logística</a></li>
+            <li><a href="#">Guías técnicas</a></li>
+          </ul>
+        </div>
+
+        <div class="ft-col">
+          <h4>Contacto</h4>
+          <ul>
+            <li><i class="fas fa-location-dot"></i><span>Cra. 11 Este # 7G-45,<br>Soacha, Cundinamarca</span></li>
+            <li><i class="fas fa-phone"></i><span>301 630 2712</span></li>
+            <li><i class="fas fa-envelope"></i><span>solucioneslogistas<br>@maderasmontoyaa.com</span></li>
+          </ul>
+        </div>
+
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Maderas Montoya — Todos los derechos reservados</p>
+        <div class="footer-btm-links">
+          <a href="#">Política de privacidad</a>
+          <a href="#">Términos de uso</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════ WHATSAPP ═══════════════ -->
+  <a href="https://wa.me/573016302712?text=Hola%2C%20estoy%20interesado%20en%20los%20productos%2Fservicios%20de%20Maderas%20Montoya"
+     target="_blank" rel="noopener" class="wa-float" aria-label="Contactar por WhatsApp">
+    <div class="wa-tip">Escríbenos por WhatsApp</div>
+    <div class="wa-btn"><i class="fab fa-whatsapp"></i></div>
+  </a>
+
+  <script>
+    /* ── Mobile menu ── */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.classList.toggle('open');
+      navLinks.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        navLinks.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', false);
+        document.body.style.overflow = '';
+      });
+    });
+
+    /* ── Scroll Reveal ── */
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObs.observe(el));
+
+    /* ── Filtro de categorías ── */
+    const filtros = document.querySelectorAll('.filtro-btn');
+    const tarjetas = document.querySelectorAll('.art-card, .art-featured');
+
+    filtros.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filtros.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.cat;
+        tarjetas.forEach(card => {
+          const match = cat === 'todos' || card.dataset.cat === cat;
+          card.style.opacity    = match ? '1'    : '0.25';
+          card.style.transform  = match ? ''     : 'scale(0.97)';
+          card.style.pointerEvents = match ? '' : 'none';
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
