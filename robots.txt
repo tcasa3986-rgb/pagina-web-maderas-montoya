@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://maderasmontoya.com/sitemap.xml
