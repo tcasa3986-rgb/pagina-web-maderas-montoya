@@ -14,6 +14,16 @@ const tallerTheme = {
   line2: 'rgba(245, 237, 224, 0.08)',
 };
 
+function useBreakpoint() {
+  const [w, setW] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  React.useEffect(() => {
+    const handler = () => setW(window.innerWidth);
+    window.addEventListener('resize', handler, { passive: true });
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return { isMobile: w <= 600, isTablet: w <= 900 && w > 600, w };
+}
+
 function TallerBadge({ n, label }) {
   return (
     <div style={{
@@ -751,6 +761,7 @@ function TallerBodegaTour() {
 }
 
 function TallerBlog() {
+  const { isMobile, isTablet } = useBreakpoint();
   const articulos = [
     { cat: 'Mantenimiento', t: '7 señales de que tus estibas necesitan reparación urgente', read: '5 min', img: 'img/blog-senales.jpeg', webp: 'img/blog-senales.webp', url: 'blog/7-senales-estibas-reparacion.html' },
     { cat: 'Sostenibilidad', t: 'Economía circular aplicada: cómo una empresa redujo cerca del 40% sus costos', read: '8 min', img: 'img/blog-economia.jpg', url: 'blog/economia-circular-estibas.html' },
@@ -758,36 +769,62 @@ function TallerBlog() {
     { cat: 'Técnico', t: 'Por qué el pino es la mejor madera para estibas (ciencia y oficio)', read: '4 min', img: 'img/blog-pino.jpeg', webp: 'img/blog-pino.webp', url: 'blog/pino-mejor-madera-estibas.html' },
     { cat: 'Logística', t: 'Reparación in-situ vs taller: cuál conviene para tu bodega', read: '7 min', img: 'img/blog-senales.jpeg', webp: 'img/blog-senales.webp', url: 'blog/reparacion-in-situ-vs-taller.html' },
   ];
+
+  const sectionPad = isMobile ? '72px 20px 80px' : isTablet ? '80px 32px' : '120px 56px';
+  const titleSize = isMobile ? 38 : isTablet ? 48 : 64;
+
+  const gridStyle = isMobile
+    ? { display: 'flex', overflowX: 'auto', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch', gap: 16, paddingBottom: 12, cursor: 'grab' }
+    : isTablet
+    ? { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }
+    : { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 };
+
+  const cardStyle = isMobile
+    ? { flex: '0 0 82vw', scrollSnapAlign: 'start', maxWidth: 320 }
+    : {};
+
   return (
-    <section id="blog" data-reveal style={{ background: 'rgba(28,24,20,0.85)', padding: '120px 56px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: 56 }}>
+    <section id="blog" data-reveal style={{ background: 'rgba(28,24,20,0.85)', padding: sectionPad }}>
+      {/* Inyectar CSS solo una vez para ocultar scrollbar del carousel */}
+      <style>{`.mm-blog-scroll::-webkit-scrollbar{display:none}.mm-blog-scroll{-ms-overflow-style:none;scrollbar-width:none}`}</style>
+
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'flex-end', marginBottom: isMobile ? 32 : 56, gap: isMobile ? 20 : 0 }}>
         <div>
           <TallerBadge n="09 —" label="Blog" />
-          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 64, lineHeight: 0.95, letterSpacing: '-0.03em', color: tallerTheme.ink, margin: '20px 0 0' }}>
+          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: titleSize, lineHeight: 0.95, letterSpacing: '-0.03em', color: tallerTheme.ink, margin: '16px 0 0' }}>
             Conocimiento del oficio.
           </h2>
         </div>
-        <button onClick={() => { window.location.href = 'blog/index.html'; }} style={{ background: 'transparent', color: tallerTheme.ink, border: `1px solid ${tallerTheme.line}`, padding: '14px 24px', fontFamily: 'Inter, sans-serif', fontSize: 13, cursor: 'pointer' }}>Ver blog completo →</button>
+        <a href="blog/index.html" style={{ textDecoration: 'none', display: 'inline-block', width: isMobile ? '100%' : 'auto' }}>
+          <button style={{ background: 'transparent', color: tallerTheme.ink, border: `1px solid ${tallerTheme.line}`, padding: '14px 24px', fontFamily: 'Inter, sans-serif', fontSize: 13, cursor: 'pointer', width: isMobile ? '100%' : 'auto' }}>Ver blog completo →</button>
+        </a>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+
+      {isMobile && (
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16 }}>
+          ← Desliza para ver más →
+        </div>
+      )}
+
+      <div className={isMobile ? 'mm-blog-scroll' : ''} style={gridStyle}>
         {articulos.slice(0, 4).map((a, i) => (
-          <a key={i} href={a.url} style={{ textDecoration: 'none', color: 'inherit' }}>
-          <article className="mm-card-lift" style={{ background: tallerTheme.bg, padding: 0, border: `1px solid ${tallerTheme.line2}`, cursor: 'pointer', height: '100%' }}>
-            {a.img ? (
-              <div style={{ aspectRatio: '4/3', overflow: 'hidden', background: tallerTheme.bg3 }}>
-                <picture style={{ width: '100%', height: '100%', display: 'block' }}>
-                  {a.webp && <source srcSet={a.webp} type="image/webp" />}
-                  <img className="mm-img-zoom" src={a.img} alt={a.t} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                </picture>
+          <a key={i} href={a.url} style={{ textDecoration: 'none', color: 'inherit', ...cardStyle }}>
+            <article className="mm-card-lift" style={{ background: tallerTheme.bg, padding: 0, border: `1px solid ${tallerTheme.line2}`, cursor: 'pointer', height: '100%' }}>
+              {a.img ? (
+                <div style={{ aspectRatio: '4/3', overflow: 'hidden', background: tallerTheme.bg3 }}>
+                  <picture style={{ width: '100%', height: '100%', display: 'block' }}>
+                    {a.webp && <source srcSet={a.webp} type="image/webp" />}
+                    <img className="mm-img-zoom" src={a.img} alt={a.t} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  </picture>
+                </div>
+              ) : (
+                <Placeholder label={a.cat} aspect="4/3" tone={i % 2 === 0 ? 'warm' : 'dark'} />
+              )}
+              <div style={{ padding: isMobile ? 20 : 24 }}>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.accent, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>{a.cat} · {a.read}</div>
+                <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: isMobile ? 19 : 22, color: tallerTheme.ink, lineHeight: 1.2, margin: 0, letterSpacing: '-0.01em' }}>{a.t}</h3>
               </div>
-            ) : (
-              <Placeholder label={a.cat} aspect="4/3" tone={i % 2 === 0 ? 'warm' : 'dark'} />
-            )}
-            <div style={{ padding: 24 }}>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.accent, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>{a.cat} · {a.read}</div>
-              <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: 22, color: tallerTheme.ink, lineHeight: 1.15, margin: 0, letterSpacing: '-0.01em' }}>{a.t}</h3>
-            </div>
-          </article>
+            </article>
           </a>
         ))}
       </div>
