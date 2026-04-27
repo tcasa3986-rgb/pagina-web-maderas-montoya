@@ -1306,7 +1306,7 @@ function VariantTaller() {
   return (
     <div data-page-root style={{ color: tallerTheme.ink, minHeight: '100%', position: 'relative', zIndex: 1 }}>
       <GlobalStyles />
-      <VideoBackdrop />
+      {/* VideoBackdrop movido a index.html para compatibilidad movil */}
       <TallerNav />
       <TallerHero />
       <TallerClientes />
