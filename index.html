@@ -212,17 +212,82 @@
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
   <style>
-    html, body { margin: 0; padding: 0; background: #e8e6e1; font-family: 'Inter', sans-serif; }
+    html, body { margin: 0; padding: 0; background: #e8e6e1; font-family: 'Inter', sans-serif; overflow-x: hidden; }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
+    /* ── MOBILE GLOBAL ── */
+    @media (max-width: 768px) {
+
+      /* Nav: ocultar links, mostrar solo logo + botón */
+      nav { display: none !important; }
+      .mm-nav-phone { display: none !important; }
+
+      /* Nav padding */
+      [style*="sticky"][style*="top: 0"] {
+        padding: 10px 16px !important;
+      }
+
+      /* Hero: columna única */
+      #nosotros { padding: 24px 16px 32px !important; }
+      #nosotros > div:first-child { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+      /* Hero h1 */
+      #nosotros h1 { font-size: 42px !important; line-height: 1.05 !important; margin: 16px 0 20px !important; }
+
+      /* Hero párrafo */
+      #nosotros p { font-size: 15px !important; }
+
+      /* Hero botones */
+      #nosotros > div:first-child > div:first-child > div:last-child {
+        flex-direction: column !important;
+        gap: 10px !important;
+      }
+      #nosotros button { width: 100% !important; padding: 16px !important; font-size: 14px !important; }
+
+      /* Stats tape: 2x2 en móvil */
+      #nosotros > div:last-child { grid-template-columns: repeat(2, 1fr) !important; margin-top: 32px !important; }
+
+      /* Todas las secciones: reducir padding lateral */
+      section { padding-left: 16px !important; padding-right: 16px !important; }
+
+      /* Grids de 2 o 3 columnas → 1 columna */
+      [style*="grid-template-columns: 1fr 2fr"],
+      [style*="grid-template-columns: 1fr 1.5fr"],
+      [style*="grid-template-columns: 1fr 1.2fr"],
+      [style*="grid-template-columns: 1fr 1.3fr"],
+      [style*="grid-template-columns: 1fr 1.4fr"],
+      [style*="grid-template-columns: 1.2fr 1fr"],
+      [style*="grid-template-columns: 1.15fr 1fr"],
+      [style*="grid-template-columns: 1fr 1fr"],
+      [style*="grid-template-columns: 1.2fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+      }
+
+      /* Grids de 3 columnas → 1 columna */
+      [style*="repeat(3, 1fr)"] { grid-template-columns: 1fr !important; gap: 16px !important; }
+
+      /* H2 grandes */
+      h2[style*="font-size: 64"] { font-size: 34px !important; line-height: 1.05 !important; }
+      h2[style*="font-size: 56"] { font-size: 30px !important; }
+
+      /* Padding vertical secciones */
+      [style*="padding: 120px 56px"] { padding: 60px 16px !important; }
+      [style*="padding: '120px 56px'"] { padding: 60px 16px !important; }
+
+      /* Video hero: ocultar en móvil para no ocupar espacio */
+      video { display: none !important; }
+      [style*="aspectRatio: '4/5'"] { display: none !important; }
+    }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
-  <script type="text/babel" src="shared.jsx?v=5"></script>
-  <script type="text/babel" src="scroll-effects.jsx?v=5"></script>
-  <script type="text/babel" src="variant-a-taller.jsx?v=5"></script>
-  <script type="text/babel" src="app.jsx?v=5"></script>
+  <script type="text/babel" src="shared.jsx?v=6"></script>
+  <script type="text/babel" src="scroll-effects.jsx?v=6"></script>
+  <script type="text/babel" src="variant-a-taller.jsx?v=6"></script>
+  <script type="text/babel" src="app.jsx?v=6"></script>
 </body>
 </html>
