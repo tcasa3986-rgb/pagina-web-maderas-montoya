@@ -1,4 +1,5 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
+Disallow: /img/_originals/
 
 Sitemap: https://maderasmontoyaa.com/sitemap.xml
