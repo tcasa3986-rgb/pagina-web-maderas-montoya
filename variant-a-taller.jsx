@@ -770,7 +770,7 @@ function TallerBlog() {
         <button onClick={() => { window.location.href = 'blog/index.html'; }} style={{ background: 'transparent', color: tallerTheme.ink, border: `1px solid ${tallerTheme.line}`, padding: '14px 24px', fontFamily: 'Inter, sans-serif', fontSize: 13, cursor: 'pointer' }}>Ver blog completo →</button>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
-        {articulos.map((a, i) => (
+        {articulos.slice(0, 4).map((a, i) => (
           <a key={i} href={a.url} style={{ textDecoration: 'none', color: 'inherit' }}>
           <article className="mm-card-lift" style={{ background: tallerTheme.bg, padding: 0, border: `1px solid ${tallerTheme.line2}`, cursor: 'pointer', height: '100%' }}>
             {a.img ? (
