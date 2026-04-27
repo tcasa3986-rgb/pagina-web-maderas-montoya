@@ -761,7 +761,6 @@ function TallerBodegaTour() {
 }
 
 function TallerBlog() {
-  const { isMobile, isTablet } = useBreakpoint();
   const articulos = [
     { cat: 'Mantenimiento', t: '7 señales de que tus estibas necesitan reparación urgente', read: '5 min', img: 'img/blog-senales.jpeg', webp: 'img/blog-senales.webp', url: 'blog/7-senales-estibas-reparacion.html' },
     { cat: 'Sostenibilidad', t: 'Economía circular aplicada: cómo una empresa redujo cerca del 40% sus costos', read: '8 min', img: 'img/blog-economia.jpg', url: 'blog/economia-circular-estibas.html' },
@@ -770,72 +769,82 @@ function TallerBlog() {
     { cat: 'Logística', t: 'Reparación in-situ vs taller: cuál conviene para tu bodega', read: '7 min', img: 'img/blog-senales.jpeg', webp: 'img/blog-senales.webp', url: 'blog/reparacion-in-situ-vs-taller.html' },
   ];
 
-  const sectionPad = isMobile ? '56px 16px 64px' : isTablet ? '80px 32px' : '120px 56px';
-  const titleSize = isMobile ? 32 : isTablet ? 48 : 64;
-
   return (
-    <section id="blog" data-reveal style={{ background: 'rgba(28,24,20,0.85)', padding: sectionPad }}>
+    <section id="blog" data-reveal style={{ background: 'rgba(28,24,20,0.85)', padding: '120px 56px' }}>
+      <style>{`
+        @media (max-width: 900px) {
+          #blog { padding: 80px 32px !important; }
+          .mm-blog-header { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; margin-bottom: 28px !important; }
+          .mm-blog-header h2 { font-size: 40px !important; }
+          .mm-blog-btn { width: 100% !important; }
+          .mm-blog-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+        }
+        @media (max-width: 600px) {
+          #blog { padding: 56px 16px 64px !important; }
+          .mm-blog-header h2 { font-size: 30px !important; }
+          .mm-blog-grid { display: none !important; }
+          .mm-blog-list { display: flex !important; }
+        }
+      `}</style>
 
-      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'flex-end', marginBottom: isMobile ? 24 : 56, gap: isMobile ? 16 : 0 }}>
+      <div className="mm-blog-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56 }}>
         <div>
           <TallerBadge n="09 —" label="Blog" />
-          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: titleSize, lineHeight: 1, letterSpacing: '-0.03em', color: tallerTheme.ink, margin: '12px 0 0' }}>
+          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 64, lineHeight: 1, letterSpacing: '-0.03em', color: tallerTheme.ink, margin: '12px 0 0' }}>
             Conocimiento del oficio.
           </h2>
         </div>
-        <a href="blog/index.html" style={{ textDecoration: 'none', display: 'block', width: isMobile ? '100%' : 'auto' }}>
-          <button style={{ background: 'transparent', color: tallerTheme.ink, border: `1px solid ${tallerTheme.line}`, padding: '12px 20px', fontFamily: 'Inter, sans-serif', fontSize: 13, cursor: 'pointer', width: isMobile ? '100%' : 'auto' }}>Ver blog completo →</button>
+        <a href="blog/index.html" className="mm-blog-btn" style={{ textDecoration: 'none', display: 'inline-block' }}>
+          <button style={{ background: 'transparent', color: tallerTheme.ink, border: `1px solid ${tallerTheme.line}`, padding: '12px 20px', fontFamily: 'Inter, sans-serif', fontSize: 13, cursor: 'pointer', width: '100%' }}>Ver blog completo →</button>
         </a>
       </div>
 
-      {/* Mobile: lista compacta horizontal */}
-      {isMobile ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {articulos.slice(0, 4).map((a, i) => (
-            <a key={i} href={a.url} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <div style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '12px 0', borderBottom: `1px solid ${tallerTheme.line2}` }}>
-                {a.img ? (
-                  <picture style={{ flexShrink: 0, width: 72, height: 72, display: 'block', overflow: 'hidden', borderRadius: 2 }}>
+      {/* Grid — tablet y desktop */}
+      <div className="mm-blog-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+        {articulos.slice(0, 4).map((a, i) => (
+          <a key={i} href={a.url} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <article className="mm-card-lift" style={{ background: tallerTheme.bg, padding: 0, border: `1px solid ${tallerTheme.line2}`, cursor: 'pointer', height: '100%' }}>
+              {a.img ? (
+                <div style={{ aspectRatio: '4/3', overflow: 'hidden', background: tallerTheme.bg3 }}>
+                  <picture style={{ width: '100%', height: '100%', display: 'block' }}>
                     {a.webp && <source srcSet={a.webp} type="image/webp" />}
-                    <img src={a.img} alt={a.t} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    <img className="mm-img-zoom" src={a.img} alt={a.t} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                   </picture>
-                ) : (
-                  <div style={{ flexShrink: 0, width: 72, height: 72, background: tallerTheme.bg3 }} />
-                )}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: tallerTheme.accent, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6 }}>{a.cat} · {a.read}</div>
-                  <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: 15, color: tallerTheme.ink, lineHeight: 1.25, margin: 0, letterSpacing: '-0.01em', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{a.t}</h3>
                 </div>
-                <span style={{ flexShrink: 0, color: tallerTheme.muted, fontSize: 16, marginLeft: 4 }}>›</span>
+              ) : (
+                <Placeholder label={a.cat} aspect="4/3" tone={i % 2 === 0 ? 'warm' : 'dark'} />
+              )}
+              <div style={{ padding: 24 }}>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.accent, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>{a.cat} · {a.read}</div>
+                <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: 22, color: tallerTheme.ink, lineHeight: 1.15, margin: 0, letterSpacing: '-0.01em' }}>{a.t}</h3>
               </div>
-            </a>
-          ))}
-        </div>
-      ) : (
-        /* Tablet / Desktop: grid */
-        <div style={isTablet ? { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 } : { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
-          {articulos.slice(0, 4).map((a, i) => (
-            <a key={i} href={a.url} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <article className="mm-card-lift" style={{ background: tallerTheme.bg, padding: 0, border: `1px solid ${tallerTheme.line2}`, cursor: 'pointer', height: '100%' }}>
-                {a.img ? (
-                  <div style={{ aspectRatio: '4/3', overflow: 'hidden', background: tallerTheme.bg3 }}>
-                    <picture style={{ width: '100%', height: '100%', display: 'block' }}>
-                      {a.webp && <source srcSet={a.webp} type="image/webp" />}
-                      <img className="mm-img-zoom" src={a.img} alt={a.t} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                    </picture>
-                  </div>
-                ) : (
-                  <Placeholder label={a.cat} aspect="4/3" tone={i % 2 === 0 ? 'warm' : 'dark'} />
-                )}
-                <div style={{ padding: 24 }}>
-                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.accent, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>{a.cat} · {a.read}</div>
-                  <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: 22, color: tallerTheme.ink, lineHeight: 1.15, margin: 0, letterSpacing: '-0.01em' }}>{a.t}</h3>
-                </div>
-              </article>
-            </a>
-          ))}
-        </div>
-      )}
+            </article>
+          </a>
+        ))}
+      </div>
+
+      {/* Lista compacta — solo móvil */}
+      <div className="mm-blog-list" style={{ display: 'none', flexDirection: 'column' }}>
+        {articulos.slice(0, 4).map((a, i) => (
+          <a key={i} href={a.url} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '12px 0', borderBottom: `1px solid ${tallerTheme.line2}` }}>
+              {a.img ? (
+                <picture style={{ flexShrink: 0, width: 72, height: 72, display: 'block', overflow: 'hidden', borderRadius: 2 }}>
+                  {a.webp && <source srcSet={a.webp} type="image/webp" />}
+                  <img src={a.img} alt={a.t} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                </picture>
+              ) : (
+                <div style={{ flexShrink: 0, width: 72, height: 72, background: tallerTheme.bg3 }} />
+              )}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: tallerTheme.accent, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6 }}>{a.cat} · {a.read}</div>
+                <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: 15, color: tallerTheme.ink, lineHeight: 1.25, margin: 0, letterSpacing: '-0.01em', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{a.t}</h3>
+              </div>
+              <span style={{ flexShrink: 0, color: tallerTheme.muted, fontSize: 18 }}>›</span>
+            </div>
+          </a>
+        ))}
+      </div>
     </section>
   );
 }
