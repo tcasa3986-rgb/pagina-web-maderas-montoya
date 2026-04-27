@@ -42,6 +42,7 @@ function TallerBadge({ n, label }) {
 
 function TallerNav() {
   const [scrolled, setScrolled] = React.useState(false);
+  const { isMobile } = useBreakpoint();
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -50,137 +51,121 @@ function TallerNav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  const pad = isMobile ? '10px 16px' : (scrolled ? '12px 56px' : '18px 56px');
+
   return (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: scrolled ? '12px 56px' : '18px 56px',
-      borderBottom: scrolled
-        ? `1px solid rgba(217,152,74,0.18)`
-        : `1px solid rgba(26,23,20,0.08)`,
-      background: scrolled
-        ? 'rgba(20,17,15,0.92)'
-        : '#f5ede0',
+      padding: pad,
+      borderBottom: scrolled ? `1px solid rgba(217,152,74,0.18)` : `1px solid rgba(26,23,20,0.08)`,
+      background: scrolled ? 'rgba(20,17,15,0.92)' : '#f5ede0',
       backdropFilter: scrolled ? 'blur(14px)' : 'none',
       position: 'sticky', top: 0, zIndex: 10,
-      boxShadow: scrolled
-        ? '0 4px 32px rgba(0,0,0,0.35)'
-        : '0 1px 0 rgba(0,0,0,0.04)',
+      boxShadow: scrolled ? '0 4px 32px rgba(0,0,0,0.35)' : '0 1px 0 rgba(0,0,0,0.04)',
       transition: 'all 0.35s cubic-bezier(.2,.7,.2,1)',
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-        <MMMark size={scrolled ? 48 : 92} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 18 }}>
+        <MMMark size={isMobile ? 40 : (scrolled ? 48 : 92)} />
         <div>
           <div style={{
             fontFamily: 'Fraunces, serif', fontWeight: 600,
-            fontSize: scrolled ? 17 : 20,
+            fontSize: isMobile ? 16 : (scrolled ? 17 : 20),
             color: scrolled ? tallerTheme.ink : '#14110f',
             letterSpacing: '-0.01em', lineHeight: 1,
             transition: 'all 0.35s',
           }}>Maderas Montoya</div>
-          {!scrolled && (
+          {!scrolled && !isMobile && (
             <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#8a7e6d', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: 5 }}>Soacha · Cundinamarca · Desde 2013</div>
           )}
         </div>
       </div>
-      <nav style={{
-        display: 'flex', gap: 36,
-        fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 500,
-        color: scrolled ? tallerTheme.ink2 : '#2a2320',
-        transition: 'color 0.35s',
-      }}>
-        {[
-          ['#nosotros',  'Nosotros'],
-          ['#productos', 'Productos'],
-          ['#servicios', 'Servicios'],
-          ['#casos',     'Casos'],
-          ['#blog',      'Blog'],
-          ['#ubicacion', 'Ubicación'],
-        ].map(([href, label]) => (
-          <a key={href} href={href} style={{
-            color: 'inherit', textDecoration: 'none',
-            transition: 'color 0.2s',
-          }}
-          onMouseEnter={e => e.target.style.color = tallerTheme.accent}
-          onMouseLeave={e => e.target.style.color = 'inherit'}
-          >{label}</a>
-        ))}
-      </nav>
-      <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
-        <span style={{
-          fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-          color: scrolled ? tallerTheme.muted : '#5a4e40',
+
+      {!isMobile && (
+        <nav style={{
+          display: 'flex', gap: 36,
+          fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 500,
+          color: scrolled ? tallerTheme.ink2 : '#2a2320',
           transition: 'color 0.35s',
-        }}>301 630 2712</span>
-        <button style={{
-          background: tallerTheme.accent, color: '#14110f', border: 'none',
-          padding: scrolled ? '10px 18px' : '13px 22px',
-          fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 13,
-          cursor: 'pointer', borderRadius: 0, letterSpacing: '0.01em',
-          transition: 'padding 0.35s',
-        }}>Cotizar ahora →</button>
+        }}>
+          {[['#nosotros','Nosotros'],['#productos','Productos'],['#servicios','Servicios'],['#casos','Casos'],['#blog','Blog'],['#ubicacion','Ubicación']].map(([href, label]) => (
+            <a key={href} href={href} style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }}
+              onMouseEnter={e => e.target.style.color = tallerTheme.accent}
+              onMouseLeave={e => e.target.style.color = 'inherit'}
+            >{label}</a>
+          ))}
+        </nav>
+      )}
+
+      <div style={{ display: 'flex', gap: isMobile ? 8 : 14, alignItems: 'center' }}>
+        {!isMobile && (
+          <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: scrolled ? tallerTheme.muted : '#5a4e40', transition: 'color 0.35s' }}>301 630 2712</span>
+        )}
+        <a href="tel:3016302712" style={{ textDecoration: 'none' }}>
+          <button style={{
+            background: isMobile ? 'transparent' : tallerTheme.accent,
+            color: isMobile ? tallerTheme.accent : '#14110f',
+            border: isMobile ? `1px solid ${tallerTheme.accent}` : 'none',
+            padding: isMobile ? '8px 14px' : (scrolled ? '10px 18px' : '13px 22px'),
+            fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: isMobile ? 12 : 13,
+            cursor: 'pointer', borderRadius: 0, letterSpacing: '0.01em', transition: 'padding 0.35s',
+          }}>{isMobile ? '☎ Llamar' : 'Cotizar ahora →'}</button>
+        </a>
+        {isMobile && (
+          <a href="https://wa.me/573016302712" style={{ textDecoration: 'none' }}>
+            <button style={{ background: tallerTheme.accent, color: '#14110f', border: 'none', padding: '8px 14px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}>Cotizar →</button>
+          </a>
+        )}
       </div>
     </div>
   );
 }
 
 function TallerHero() {
+  const { isMobile } = useBreakpoint();
   return (
-    <section id="nosotros" data-reveal style={{ background: 'transparent', padding: '80px 56px 40px', position: 'relative', zIndex: 2, color: '#f5ede0' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1.15fr 1fr', gap: 56, alignItems: 'end' }}>
+    <section id="nosotros" data-reveal style={{ background: 'transparent', padding: isMobile ? '32px 16px 24px' : '80px 56px 40px', position: 'relative', zIndex: 2, color: '#f5ede0' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.15fr 1fr', gap: isMobile ? 0 : 56, alignItems: 'end' }}>
         <div>
-          <TallerBadge n="01 —" label="Estibas · Soacha · Bogotá · Cundinamarca" />
+          <TallerBadge n="01 —" label={isMobile ? 'Soacha · Bogotá' : 'Estibas · Soacha · Bogotá · Cundinamarca'} />
           <h1 style={{
             fontFamily: 'Fraunces, serif', fontWeight: 400,
-            fontSize: 92, lineHeight: 0.94, letterSpacing: '-0.035em',
-            color: tallerTheme.ink, margin: '28px 0 28px',
+            fontSize: isMobile ? 44 : 92, lineHeight: isMobile ? 1.05 : 0.94, letterSpacing: '-0.035em',
+            color: tallerTheme.ink, margin: isMobile ? '16px 0 16px' : '28px 0 28px',
           }}>
             Recolectamos, <em style={{ fontStyle: 'italic', color: tallerTheme.accent2 }}>reutilizamos</em> y aprovechamos la madera industrial.
           </h1>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.55, color: tallerTheme.ink2, maxWidth: 560, margin: 0 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: isMobile ? 15 : 18, lineHeight: 1.55, color: tallerTheme.ink2, maxWidth: 560, margin: 0 }}>
             Empresa colombiana que opera bajo la <strong style={{ color: tallerTheme.ink }}>normatividad ambiental vigente</strong>. Compra, venta y reparación in-situ de estibas de madera en Soacha, Bogotá y Cundinamarca.
           </p>
-          <div style={{ display: 'flex', gap: 16, marginTop: 40 }}>
-            <button className="mm-btn-press" style={{ background: tallerTheme.accent, color: tallerTheme.bg, border: 'none', padding: '18px 32px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 15, cursor: 'pointer' }}>Solicitar cotización →</button>
-            <button className="mm-btn-press" style={{ background: 'transparent', color: tallerTheme.ink, border: `1px solid ${tallerTheme.line}`, padding: '18px 32px', fontFamily: 'Inter, sans-serif', fontWeight: 500, fontSize: 15, cursor: 'pointer' }}>Ver productos</button>
+          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 10 : 16, marginTop: isMobile ? 24 : 40 }}>
+            <button className="mm-btn-press" style={{ background: tallerTheme.accent, color: tallerTheme.bg, border: 'none', padding: isMobile ? '16px' : '18px 32px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: isMobile ? 14 : 15, cursor: 'pointer' }}>Solicitar cotización →</button>
+            <button className="mm-btn-press" style={{ background: 'transparent', color: tallerTheme.ink, border: `1px solid ${tallerTheme.line}`, padding: isMobile ? '16px' : '18px 32px', fontFamily: 'Inter, sans-serif', fontWeight: 500, fontSize: isMobile ? 14 : 15, cursor: 'pointer' }}>Ver productos</button>
           </div>
         </div>
 
-        <div style={{ position: 'relative' }}>
-          {/* Video player */}
-          <div style={{
-            aspectRatio: '4/5',
-            position: 'relative', overflow: 'hidden',
-            border: `1px solid ${tallerTheme.line}`,
-          }}>
-            <video
-              autoPlay muted loop playsInline
-              src="video/hero-card.mp4"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(180deg, rgba(20,17,15,0.15) 0%, rgba(20,17,15,0.55) 100%)',
-              pointerEvents: 'none',
-            }} />
-            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.ink, letterSpacing: '0.1em', textTransform: 'uppercase', position: 'absolute', top: 16, left: 16, opacity: 0.85 }}>● EN VIVO · BODEGA</div>
-            <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24 }}>
-              <div style={{ fontFamily: 'Fraunces, serif', fontSize: 24, color: tallerTheme.ink, fontStyle: 'italic', lineHeight: 1.15 }}>Nuestra operación, en movimiento</div>
-              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.accent2, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: 8 }}>SOACHA · CUNDINAMARCA</div>
+        {!isMobile && (
+          <div style={{ position: 'relative' }}>
+            <div style={{ aspectRatio: '4/5', position: 'relative', overflow: 'hidden', border: `1px solid ${tallerTheme.line}` }}>
+              <video autoPlay muted loop playsInline src="video/hero-card.mp4" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,17,15,0.15) 0%, rgba(20,17,15,0.55) 100%)', pointerEvents: 'none' }} />
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.ink, letterSpacing: '0.1em', textTransform: 'uppercase', position: 'absolute', top: 16, left: 16, opacity: 0.85 }}>● EN VIVO · BODEGA</div>
+              <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24 }}>
+                <div style={{ fontFamily: 'Fraunces, serif', fontSize: 24, color: tallerTheme.ink, fontStyle: 'italic', lineHeight: 1.15 }}>Nuestra operación, en movimiento</div>
+                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.accent2, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: 8 }}>SOACHA · CUNDINAMARCA</div>
+              </div>
+            </div>
+            <div style={{ position: 'absolute', bottom: -24, left: -24, background: tallerTheme.bg2, border: `1px solid ${tallerTheme.line}`, padding: '20px 28px', maxWidth: 300 }}>
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.accent, letterSpacing: '0.12em', textTransform: 'uppercase' }}>CUMPLIMIENTO AMBIENTAL</div>
+              <div style={{ fontFamily: 'Fraunces, serif', fontSize: 19, color: tallerTheme.ink, marginTop: 6, lineHeight: 1.25 }}>Operación bajo normatividad ambiental vigente en Colombia</div>
             </div>
           </div>
-          <div style={{
-            position: 'absolute', bottom: -24, left: -24, background: tallerTheme.bg2,
-            border: `1px solid ${tallerTheme.line}`, padding: '20px 28px', maxWidth: 300,
-          }}>
-            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.accent, letterSpacing: '0.12em', textTransform: 'uppercase' }}>CUMPLIMIENTO AMBIENTAL</div>
-            <div style={{ fontFamily: 'Fraunces, serif', fontSize: 19, color: tallerTheme.ink, marginTop: 6, lineHeight: 1.25 }}>Operación bajo normatividad ambiental vigente en Colombia</div>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Stats tape */}
       <div style={{
-        marginTop: 88, display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
+        marginTop: isMobile ? 32 : 88,
+        display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
         borderTop: `1px solid ${tallerTheme.line2}`, borderBottom: `1px solid ${tallerTheme.line2}`,
       }}>
         {[
@@ -190,11 +175,12 @@ function TallerHero() {
           { n: '48h', label: 'Respuesta promedio' },
         ].map((s, i) => (
           <div key={i} style={{
-            padding: '32px 24px',
-            borderRight: i < 3 ? `1px solid ${tallerTheme.line2}` : 'none',
+            padding: isMobile ? '20px 16px' : '32px 24px',
+            borderRight: isMobile ? (i % 2 === 0 ? `1px solid ${tallerTheme.line2}` : 'none') : (i < 3 ? `1px solid ${tallerTheme.line2}` : 'none'),
+            borderBottom: isMobile && i < 2 ? `1px solid ${tallerTheme.line2}` : 'none',
           }}>
-            <div style={{ fontFamily: 'Fraunces, serif', fontSize: 56, color: tallerTheme.ink, lineHeight: 1, letterSpacing: '-0.03em' }}>{s.n}</div>
-            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.muted, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 10 }}>{s.label}</div>
+            <div style={{ fontFamily: 'Fraunces, serif', fontSize: isMobile ? 36 : 56, color: tallerTheme.ink, lineHeight: 1, letterSpacing: '-0.03em' }}>{s.n}</div>
+            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.muted, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 8 }}>{s.label}</div>
           </div>
         ))}
       </div>
