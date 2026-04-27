@@ -23,6 +23,8 @@ function useScrollReveal() {
 
 function VideoBackdrop() {
   const [scroll, setScroll] = React.useState(0);
+  const isMobileDevice = typeof window !== 'undefined' && window.innerWidth <= 768;
+
   React.useEffect(() => {
     const onScroll = () => {
       const h = document.documentElement.scrollHeight - window.innerHeight;
@@ -34,13 +36,36 @@ function VideoBackdrop() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Cinematic effects driven by scroll progress
-  const scale = 1 + scroll * 0.18;                  // slow zoom in
-  const translateY = scroll * -60;                  // gentle parallax drift
-  const blur = scroll * 4;                          // softens as you go down
-  const hue = scroll * 12;                          // tiny hue shift
-  const overlayOpacity = 0.45 + scroll * 0.35;      // darkens deeper down
+  const scale = 1 + scroll * 0.18;
+  const translateY = scroll * -60;
+  const blur = scroll * 4;
+  const hue = scroll * 12;
+  const overlayOpacity = 0.45 + scroll * 0.35;
   const vignette = 0.4 + scroll * 0.35;
+
+  // En móvil: position sticky dentro del hero para compatibilidad con todos los navegadores
+  if (isMobileDevice) {
+    return (
+      <div style={{
+        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0,
+        pointerEvents: 'none', overflow: 'hidden',
+        backgroundColor: '#14110f',
+      }}>
+        <video
+          autoPlay muted loop playsInline
+          webkit-playsinline="true"
+          x5-playsinline="true"
+          src="video/hero.mp4"
+          style={{
+            position: 'absolute', top: 0, left: 0,
+            width: '100%', height: '100%', objectFit: 'cover',
+            opacity: 0.7,
+          }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(20,17,15,0.35) 0%, rgba(20,17,15,0.6) 100%)' }} />
+      </div>
+    );
+  }
 
   return (
     <div style={{
@@ -60,19 +85,16 @@ function VideoBackdrop() {
           willChange: 'transform, filter',
         }}
       />
-      {/* Base darken — reacts to scroll */}
       <div style={{
         position: 'absolute', inset: 0,
         background: `linear-gradient(180deg, rgba(20,17,15,${overlayOpacity}) 0%, rgba(20,17,15,${Math.min(0.95, overlayOpacity + 0.15)}) 100%)`,
         transition: 'background 0.2s linear',
       }} />
-      {/* Vignette — intensifies on scroll */}
       <div style={{
         position: 'absolute', inset: 0,
         background: `radial-gradient(ellipse at center, transparent ${30 - scroll * 10}%, rgba(20,17,15,${vignette}) 100%)`,
         transition: 'background 0.2s linear',
       }} />
-      {/* Subtle warm wash that fades in at bottom */}
       <div style={{
         position: 'absolute', inset: 0,
         background: `radial-gradient(circle at 50% 100%, rgba(217,152,74,${scroll * 0.12}) 0%, transparent 60%)`,
