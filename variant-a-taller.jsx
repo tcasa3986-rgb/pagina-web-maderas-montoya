@@ -770,64 +770,72 @@ function TallerBlog() {
     { cat: 'Logística', t: 'Reparación in-situ vs taller: cuál conviene para tu bodega', read: '7 min', img: 'img/blog-senales.jpeg', webp: 'img/blog-senales.webp', url: 'blog/reparacion-in-situ-vs-taller.html' },
   ];
 
-  const sectionPad = isMobile ? '72px 20px 80px' : isTablet ? '80px 32px' : '120px 56px';
-  const titleSize = isMobile ? 38 : isTablet ? 48 : 64;
-
-  const gridStyle = isMobile
-    ? { display: 'flex', overflowX: 'auto', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch', gap: 16, paddingBottom: 12, cursor: 'grab' }
-    : isTablet
-    ? { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }
-    : { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 };
-
-  const cardStyle = isMobile
-    ? { flex: '0 0 82vw', scrollSnapAlign: 'start', maxWidth: 320 }
-    : {};
+  const sectionPad = isMobile ? '56px 16px 64px' : isTablet ? '80px 32px' : '120px 56px';
+  const titleSize = isMobile ? 32 : isTablet ? 48 : 64;
 
   return (
     <section id="blog" data-reveal style={{ background: 'rgba(28,24,20,0.85)', padding: sectionPad }}>
-      {/* Inyectar CSS solo una vez para ocultar scrollbar del carousel */}
-      <style>{`.mm-blog-scroll::-webkit-scrollbar{display:none}.mm-blog-scroll{-ms-overflow-style:none;scrollbar-width:none}`}</style>
 
-      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'flex-end', marginBottom: isMobile ? 32 : 56, gap: isMobile ? 20 : 0 }}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'flex-end', marginBottom: isMobile ? 24 : 56, gap: isMobile ? 16 : 0 }}>
         <div>
           <TallerBadge n="09 —" label="Blog" />
-          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: titleSize, lineHeight: 0.95, letterSpacing: '-0.03em', color: tallerTheme.ink, margin: '16px 0 0' }}>
+          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: titleSize, lineHeight: 1, letterSpacing: '-0.03em', color: tallerTheme.ink, margin: '12px 0 0' }}>
             Conocimiento del oficio.
           </h2>
         </div>
-        <a href="blog/index.html" style={{ textDecoration: 'none', display: 'inline-block', width: isMobile ? '100%' : 'auto' }}>
-          <button style={{ background: 'transparent', color: tallerTheme.ink, border: `1px solid ${tallerTheme.line}`, padding: '14px 24px', fontFamily: 'Inter, sans-serif', fontSize: 13, cursor: 'pointer', width: isMobile ? '100%' : 'auto' }}>Ver blog completo →</button>
+        <a href="blog/index.html" style={{ textDecoration: 'none', display: 'block', width: isMobile ? '100%' : 'auto' }}>
+          <button style={{ background: 'transparent', color: tallerTheme.ink, border: `1px solid ${tallerTheme.line}`, padding: '12px 20px', fontFamily: 'Inter, sans-serif', fontSize: 13, cursor: 'pointer', width: isMobile ? '100%' : 'auto' }}>Ver blog completo →</button>
         </a>
       </div>
 
-      {isMobile && (
-        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16 }}>
-          ← Desliza para ver más →
+      {/* Mobile: lista compacta horizontal */}
+      {isMobile ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {articulos.slice(0, 4).map((a, i) => (
+            <a key={i} href={a.url} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '12px 0', borderBottom: `1px solid ${tallerTheme.line2}` }}>
+                {a.img ? (
+                  <picture style={{ flexShrink: 0, width: 72, height: 72, display: 'block', overflow: 'hidden', borderRadius: 2 }}>
+                    {a.webp && <source srcSet={a.webp} type="image/webp" />}
+                    <img src={a.img} alt={a.t} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  </picture>
+                ) : (
+                  <div style={{ flexShrink: 0, width: 72, height: 72, background: tallerTheme.bg3 }} />
+                )}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: tallerTheme.accent, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 6 }}>{a.cat} · {a.read}</div>
+                  <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: 15, color: tallerTheme.ink, lineHeight: 1.25, margin: 0, letterSpacing: '-0.01em', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{a.t}</h3>
+                </div>
+                <span style={{ flexShrink: 0, color: tallerTheme.muted, fontSize: 16, marginLeft: 4 }}>›</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        /* Tablet / Desktop: grid */
+        <div style={isTablet ? { display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 } : { display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+          {articulos.slice(0, 4).map((a, i) => (
+            <a key={i} href={a.url} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <article className="mm-card-lift" style={{ background: tallerTheme.bg, padding: 0, border: `1px solid ${tallerTheme.line2}`, cursor: 'pointer', height: '100%' }}>
+                {a.img ? (
+                  <div style={{ aspectRatio: '4/3', overflow: 'hidden', background: tallerTheme.bg3 }}>
+                    <picture style={{ width: '100%', height: '100%', display: 'block' }}>
+                      {a.webp && <source srcSet={a.webp} type="image/webp" />}
+                      <img className="mm-img-zoom" src={a.img} alt={a.t} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    </picture>
+                  </div>
+                ) : (
+                  <Placeholder label={a.cat} aspect="4/3" tone={i % 2 === 0 ? 'warm' : 'dark'} />
+                )}
+                <div style={{ padding: 24 }}>
+                  <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.accent, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>{a.cat} · {a.read}</div>
+                  <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: 22, color: tallerTheme.ink, lineHeight: 1.15, margin: 0, letterSpacing: '-0.01em' }}>{a.t}</h3>
+                </div>
+              </article>
+            </a>
+          ))}
         </div>
       )}
-
-      <div className={isMobile ? 'mm-blog-scroll' : ''} style={gridStyle}>
-        {articulos.slice(0, 4).map((a, i) => (
-          <a key={i} href={a.url} style={{ textDecoration: 'none', color: 'inherit', ...cardStyle }}>
-            <article className="mm-card-lift" style={{ background: tallerTheme.bg, padding: 0, border: `1px solid ${tallerTheme.line2}`, cursor: 'pointer', height: '100%' }}>
-              {a.img ? (
-                <div style={{ aspectRatio: '4/3', overflow: 'hidden', background: tallerTheme.bg3 }}>
-                  <picture style={{ width: '100%', height: '100%', display: 'block' }}>
-                    {a.webp && <source srcSet={a.webp} type="image/webp" />}
-                    <img className="mm-img-zoom" src={a.img} alt={a.t} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                  </picture>
-                </div>
-              ) : (
-                <Placeholder label={a.cat} aspect="4/3" tone={i % 2 === 0 ? 'warm' : 'dark'} />
-              )}
-              <div style={{ padding: isMobile ? 20 : 24 }}>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.accent, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>{a.cat} · {a.read}</div>
-                <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: isMobile ? 19 : 22, color: tallerTheme.ink, lineHeight: 1.2, margin: 0, letterSpacing: '-0.01em' }}>{a.t}</h3>
-              </div>
-            </article>
-          </a>
-        ))}
-      </div>
     </section>
   );
 }
