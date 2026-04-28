@@ -40,8 +40,18 @@ function TallerBadge({ n, label }) {
   );
 }
 
+const NAV_LINKS = [
+  ['#nosotros',  'Nosotros'],
+  ['#productos', 'Productos'],
+  ['#servicios', 'Servicios'],
+  ['#casos',     'Casos de éxito'],
+  ['#blog',      'Blog'],
+  ['#ubicacion', 'Ubicación'],
+];
+
 function TallerNav() {
   const [scrolled, setScrolled] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
   const { isMobile } = useBreakpoint();
 
   React.useEffect(() => {
@@ -51,71 +61,106 @@ function TallerNav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Cerrar menú al hacer scroll
+  React.useEffect(() => {
+    if (menuOpen) {
+      const close = () => setMenuOpen(false);
+      window.addEventListener('scroll', close, { passive: true, once: true });
+    }
+  }, [menuOpen]);
+
+  const navBg = scrolled ? 'rgba(20,17,15,0.96)' : '#f5ede0';
   const pad = isMobile ? '10px 16px' : (scrolled ? '12px 56px' : '18px 56px');
 
   return (
-    <div style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: pad,
-      borderBottom: scrolled ? `1px solid rgba(217,152,74,0.18)` : `1px solid rgba(26,23,20,0.08)`,
-      background: scrolled ? 'rgba(20,17,15,0.92)' : '#f5ede0',
-      backdropFilter: scrolled ? 'blur(14px)' : 'none',
-      position: 'sticky', top: 0, zIndex: 10,
-      boxShadow: scrolled ? '0 4px 32px rgba(0,0,0,0.35)' : '0 1px 0 rgba(0,0,0,0.04)',
-      transition: 'all 0.35s cubic-bezier(.2,.7,.2,1)',
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 18 }}>
-        <MMMark size={isMobile ? 40 : (scrolled ? 48 : 92)} />
-        <div>
-          <div style={{
-            fontFamily: 'Fraunces, serif', fontWeight: 600,
-            fontSize: isMobile ? 16 : (scrolled ? 17 : 20),
-            color: scrolled ? tallerTheme.ink : '#14110f',
-            letterSpacing: '-0.01em', lineHeight: 1,
-            transition: 'all 0.35s',
-          }}>Maderas Montoya</div>
-          {!scrolled && !isMobile && (
-            <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#8a7e6d', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: 5 }}>Soacha · Cundinamarca · Desde 2013</div>
+    <div style={{ position: 'sticky', top: 0, zIndex: 100 }}>
+      {/* Barra principal */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: pad,
+        borderBottom: scrolled ? `1px solid rgba(217,152,74,0.18)` : `1px solid rgba(26,23,20,0.08)`,
+        background: navBg,
+        backdropFilter: scrolled ? 'blur(14px)' : 'none',
+        boxShadow: scrolled ? '0 4px 32px rgba(0,0,0,0.35)' : '0 1px 0 rgba(0,0,0,0.04)',
+        transition: 'all 0.35s cubic-bezier(.2,.7,.2,1)',
+      }}>
+        {/* Logo */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 10 : 18 }}>
+          <MMMark size={isMobile ? 40 : (scrolled ? 48 : 92)} />
+          <div>
+            <div style={{ fontFamily: 'Fraunces, serif', fontWeight: 600, fontSize: isMobile ? 16 : (scrolled ? 17 : 20), color: scrolled ? tallerTheme.ink : '#14110f', letterSpacing: '-0.01em', lineHeight: 1, transition: 'all 0.35s' }}>Maderas Montoya</div>
+            {!scrolled && !isMobile && (
+              <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: '#8a7e6d', letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: 5 }}>Soacha · Cundinamarca · Desde 2013</div>
+            )}
+          </div>
+        </div>
+
+        {/* Links desktop */}
+        {!isMobile && (
+          <nav style={{ display: 'flex', gap: 36, fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 500, color: scrolled ? tallerTheme.ink2 : '#2a2320', transition: 'color 0.35s' }}>
+            {NAV_LINKS.map(([href, label]) => (
+              <a key={href} href={href} style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }}
+                onMouseEnter={e => e.target.style.color = tallerTheme.accent}
+                onMouseLeave={e => e.target.style.color = 'inherit'}
+              >{label}</a>
+            ))}
+          </nav>
+        )}
+
+        {/* Acciones */}
+        <div style={{ display: 'flex', gap: isMobile ? 8 : 14, alignItems: 'center' }}>
+          {!isMobile && (
+            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: scrolled ? tallerTheme.muted : '#5a4e40', transition: 'color 0.35s' }}>301 630 2712</span>
+          )}
+          {!isMobile && (
+            <a href="tel:3016302712" style={{ textDecoration: 'none' }}>
+              <button style={{ background: tallerTheme.accent, color: '#14110f', border: 'none', padding: scrolled ? '10px 18px' : '13px 22px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 13, cursor: 'pointer', letterSpacing: '0.01em', transition: 'padding 0.35s' }}>Cotizar ahora →</button>
+            </a>
+          )}
+
+          {/* Móvil: botón Cotizar + hamburguesa */}
+          {isMobile && (
+            <>
+              <a href="https://wa.me/573016302712" style={{ textDecoration: 'none' }}>
+                <button style={{ background: tallerTheme.accent, color: '#14110f', border: 'none', padding: '9px 14px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}>Cotizar →</button>
+              </a>
+              <button
+                onClick={() => setMenuOpen(o => !o)}
+                style={{ background: 'transparent', border: `1px solid ${scrolled ? tallerTheme.line : 'rgba(26,23,20,0.2)'}`, padding: '8px 10px', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 5, alignItems: 'center', justifyContent: 'center' }}
+                aria-label="Menú"
+              >
+                <span style={{ display: 'block', width: 20, height: 2, background: scrolled ? tallerTheme.ink : '#14110f', transition: 'all 0.3s', transform: menuOpen ? 'rotate(45deg) translate(5px,5px)' : 'none' }} />
+                <span style={{ display: 'block', width: 20, height: 2, background: scrolled ? tallerTheme.ink : '#14110f', transition: 'all 0.3s', opacity: menuOpen ? 0 : 1 }} />
+                <span style={{ display: 'block', width: 20, height: 2, background: scrolled ? tallerTheme.ink : '#14110f', transition: 'all 0.3s', transform: menuOpen ? 'rotate(-45deg) translate(5px,-5px)' : 'none' }} />
+              </button>
+            </>
           )}
         </div>
       </div>
 
-      {!isMobile && (
-        <nav style={{
-          display: 'flex', gap: 36,
-          fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 500,
-          color: scrolled ? tallerTheme.ink2 : '#2a2320',
-          transition: 'color 0.35s',
-        }}>
-          {[['#nosotros','Nosotros'],['#productos','Productos'],['#servicios','Servicios'],['#casos','Casos'],['#blog','Blog'],['#ubicacion','Ubicación']].map(([href, label]) => (
-            <a key={href} href={href} style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }}
-              onMouseEnter={e => e.target.style.color = tallerTheme.accent}
-              onMouseLeave={e => e.target.style.color = 'inherit'}
-            >{label}</a>
+      {/* Panel desplegable móvil */}
+      {isMobile && menuOpen && (
+        <div style={{ background: 'rgba(14,12,10,0.98)', backdropFilter: 'blur(16px)', borderBottom: `1px solid ${tallerTheme.line}`, padding: '8px 0 20px' }}>
+          {NAV_LINKS.map(([href, label]) => (
+            <a
+              key={href} href={href}
+              onClick={() => setMenuOpen(false)}
+              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 20px', fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 500, color: tallerTheme.ink, textDecoration: 'none', borderBottom: `1px solid ${tallerTheme.line2}` }}
+            >
+              {label}
+              <span style={{ color: tallerTheme.accent, fontSize: 18 }}>›</span>
+            </a>
           ))}
-        </nav>
+          <div style={{ padding: '20px 20px 0', display: 'flex', gap: 10 }}>
+            <a href="tel:3016302712" style={{ flex: 1, textDecoration: 'none' }}>
+              <button style={{ width: '100%', background: 'transparent', color: tallerTheme.ink, border: `1px solid ${tallerTheme.line}`, padding: '13px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>☎ 301 630 2712</button>
+            </a>
+            <a href="https://wa.me/573016302712" style={{ flex: 1, textDecoration: 'none' }}>
+              <button style={{ width: '100%', background: tallerTheme.accent, color: '#14110f', border: 'none', padding: '13px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 13, cursor: 'pointer' }}>WhatsApp →</button>
+            </a>
+          </div>
+        </div>
       )}
-
-      <div style={{ display: 'flex', gap: isMobile ? 8 : 14, alignItems: 'center' }}>
-        {!isMobile && (
-          <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: scrolled ? tallerTheme.muted : '#5a4e40', transition: 'color 0.35s' }}>301 630 2712</span>
-        )}
-        <a href="tel:3016302712" style={{ textDecoration: 'none' }}>
-          <button style={{
-            background: isMobile ? 'transparent' : tallerTheme.accent,
-            color: isMobile ? tallerTheme.accent : '#14110f',
-            border: isMobile ? `1px solid ${tallerTheme.accent}` : 'none',
-            padding: isMobile ? '8px 14px' : (scrolled ? '10px 18px' : '13px 22px'),
-            fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: isMobile ? 12 : 13,
-            cursor: 'pointer', borderRadius: 0, letterSpacing: '0.01em', transition: 'padding 0.35s',
-          }}>{isMobile ? '☎ Llamar' : 'Cotizar ahora →'}</button>
-        </a>
-        {isMobile && (
-          <a href="https://wa.me/573016302712" style={{ textDecoration: 'none' }}>
-            <button style={{ background: tallerTheme.accent, color: '#14110f', border: 'none', padding: '8px 14px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 12, cursor: 'pointer' }}>Cotizar →</button>
-          </a>
-        )}
-      </div>
     </div>
   );
 }
