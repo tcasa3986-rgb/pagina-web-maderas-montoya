@@ -906,33 +906,49 @@ function TallerCertificaciones() {
 }
 
 function TallerEquipo() {
+  const { isMobile } = useBreakpoint();
   return (
-    <section data-reveal style={{ background: 'rgba(28,24,20,0.85)', padding: '120px 56px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 64, alignItems: 'center' }}>
-        <div style={{ position: 'relative' }}>
-          <div style={{ aspectRatio: '4/3', overflow: 'hidden', position: 'relative', border: `1px solid ${tallerTheme.line}` }}>
-            <img src="img/equipo.jpeg" alt="Equipo Maderas Montoya en bodega" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 60%, rgba(20,17,15,0.55) 100%)' }} />
+    <section data-reveal style={{ background: 'rgba(28,24,20,0.85)', padding: isMobile ? '60px 16px' : '120px 56px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.3fr 1fr', gap: isMobile ? 32 : 64, alignItems: 'center' }}>
+
+        {/* Imagen — en móvil va abajo */}
+        {!isMobile && (
+          <div style={{ position: 'relative' }}>
+            <div style={{ aspectRatio: '4/3', overflow: 'hidden', position: 'relative', border: `1px solid ${tallerTheme.line}` }}>
+              <img src="img/equipo.jpeg" alt="Equipo Maderas Montoya en bodega" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 60%, rgba(20,17,15,0.55) 100%)' }} />
+            </div>
+            <div style={{ position: 'absolute', bottom: 24, left: 24, background: tallerTheme.bg, padding: '14px 20px', fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.accent, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Equipo Montoya · Soacha</div>
           </div>
-          <div style={{ position: 'absolute', bottom: 24, left: 24, background: tallerTheme.bg, padding: '14px 20px', fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.accent, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Equipo Montoya · Soacha</div>
-        </div>
+        )}
+
         <div>
           <TallerBadge n="12 —" label="Nuestro equipo" />
-          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 64, lineHeight: 0.95, letterSpacing: '-0.03em', color: tallerTheme.ink, margin: '20px 0 32px' }}>
+          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: isMobile ? 34 : 64, lineHeight: isMobile ? 1.05 : 0.95, letterSpacing: '-0.03em', color: tallerTheme.ink, margin: isMobile ? '14px 0 20px' : '20px 0 32px' }}>
             El <em style={{ color: tallerTheme.accent2 }}>talento humano</em> detrás de cada estiba.
           </h2>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.6, color: tallerTheme.ink2, marginBottom: 22 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: isMobile ? 15 : 18, lineHeight: 1.6, color: tallerTheme.ink2, marginBottom: 22 }}>
             En Maderas Montoya creemos que la calidad no se construye solo con madera: se construye con <strong style={{ color: tallerTheme.ink }}>personas comprometidas</strong>. Contamos con un equipo multidisciplinario de operarios, técnicos en reparación, conductores certificados y personal administrativo, todos capacitados bajo nuestro Sistema de Gestión de Seguridad y Salud en el Trabajo (SG-SST).
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, marginTop: 40, paddingTop: 32, borderTop: `1px solid ${tallerTheme.line2}`, background: tallerTheme.line2 }}>
+
+          {/* Imagen compacta en móvil */}
+          {isMobile && (
+            <div style={{ position: 'relative', marginBottom: 24, border: `1px solid ${tallerTheme.line}`, overflow: 'hidden' }}>
+              <img src="img/equipo.jpeg" alt="Equipo Maderas Montoya" style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, transparent 50%, rgba(20,17,15,0.6) 100%)' }} />
+              <div style={{ position: 'absolute', bottom: 12, left: 14, fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.accent, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Equipo Montoya · Soacha</div>
+            </div>
+          )}
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, marginTop: isMobile ? 0 : 40, paddingTop: isMobile ? 0 : 32, borderTop: isMobile ? 'none' : `1px solid ${tallerTheme.line2}`, background: tallerTheme.line2 }}>
             {[
               { n: '+25', l: 'Colaboradores directos' },
               { n: '100%', l: 'Personal con SG-SST vigente' },
               { n: '+12 años', l: 'Experiencia promedio del equipo técnico' },
               { n: '24/7', l: 'Operación y atención a clientes industriales' },
             ].map((p, i) => (
-              <div key={i} style={{ background: 'rgba(28,24,20,0.85)', padding: '16px 16px' }}>
-                <div style={{ fontFamily: 'Fraunces, serif', fontSize: 24, color: tallerTheme.ink, lineHeight: 1, letterSpacing: '-0.02em' }}>{p.n}</div>
+              <div key={i} style={{ background: 'rgba(28,24,20,0.85)', padding: isMobile ? '14px 12px' : '16px 16px' }}>
+                <div style={{ fontFamily: 'Fraunces, serif', fontSize: isMobile ? 20 : 24, color: tallerTheme.ink, lineHeight: 1, letterSpacing: '-0.02em' }}>{p.n}</div>
                 <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: tallerTheme.muted, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: 6, lineHeight: 1.4 }}>{p.l}</div>
               </div>
             ))}
@@ -1218,56 +1234,44 @@ function GlobalStyles() {
 }
 
 function TallerUbicacion() {
+  const { isMobile } = useBreakpoint();
   return (
-    <section id="ubicacion" data-reveal style={{ background: '#0e0c0a', borderTop: `1px solid ${tallerTheme.line2}`, padding: '120px 56px' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 64, alignItems: 'start' }}>
+    <section id="ubicacion" data-reveal style={{ background: '#0e0c0a', borderTop: `1px solid ${tallerTheme.line2}`, padding: isMobile ? '60px 16px' : '120px 56px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.6fr', gap: isMobile ? 32 : 64, alignItems: 'start' }}>
 
         {/* Info */}
         <div>
           <TallerBadge n="14 —" label="Ubicación" />
-          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: 64, lineHeight: 0.95, letterSpacing: '-0.03em', color: tallerTheme.ink, margin: '20px 0 32px' }}>
+          <h2 style={{ fontFamily: 'Fraunces, serif', fontWeight: 400, fontSize: isMobile ? 34 : 64, lineHeight: isMobile ? 1.05 : 0.95, letterSpacing: '-0.03em', color: tallerTheme.ink, margin: isMobile ? '14px 0 20px' : '20px 0 32px' }}>
             Encuéntranos <em style={{ color: tallerTheme.accent2 }}>aquí.</em>
           </h2>
 
           {/* Datos */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: tallerTheme.line2, marginBottom: 32 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: tallerTheme.line2, marginBottom: 24 }}>
             {[
               ['Dirección',    'Cra. 11 Este #7G-45'],
               ['Ciudad',       'Soacha, Cundinamarca'],
-              ['País',         'Colombia'],
               ['Teléfono',     '+57 301 630 2712'],
-              ['Horario',      'Lun – Vie: 7 am – 5 pm · Sáb: 7 am – 12 pm'],
-              ['Zona cubierta','Soacha · Bogotá · Cundinamarca'],
+              ['Horario',      'Lun–Vie: 7am–5pm · Sáb: 7am–12pm'],
+              ['Zona',         'Soacha · Bogotá · Cundinamarca'],
             ].map(([k, v]) => (
-              <div key={k} style={{ background: tallerTheme.bg2, padding: '18px 24px', display: 'flex', gap: 24 }}>
-                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.muted, letterSpacing: '0.1em', textTransform: 'uppercase', minWidth: 110, paddingTop: 2 }}>{k}</span>
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: tallerTheme.ink, fontWeight: 500 }}>{v}</span>
+              <div key={k} style={{ background: tallerTheme.bg2, padding: isMobile ? '12px 14px' : '18px 24px', display: 'flex', gap: isMobile ? 12 : 24, flexWrap: 'wrap' }}>
+                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.muted, letterSpacing: '0.1em', textTransform: 'uppercase', minWidth: isMobile ? 70 : 110, paddingTop: 2 }}>{k}</span>
+                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: isMobile ? 13 : 14, color: tallerTheme.ink, fontWeight: 500, flex: 1 }}>{v}</span>
               </div>
             ))}
           </div>
 
           {/* CTAs */}
-          <div style={{ display: 'flex', gap: 12 }}>
-            <a
-              href="https://share.google/8zOYhOeMVaAYIfxt7"
-              target="_blank" rel="noopener noreferrer"
-              className="mm-btn-press"
-              style={{
-                display: 'inline-block', background: tallerTheme.accent, color: tallerTheme.bg,
-                padding: '14px 22px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 13,
-                textDecoration: 'none', letterSpacing: '0.01em',
-              }}
-            >Ver en Google Maps →</a>
-            <a
-              href="https://wa.me/573016302712?text=Hola%20Maderas%20Montoya%2C%20quisiera%20visitar%20sus%20instalaciones"
-              target="_blank" rel="noopener noreferrer"
-              className="mm-btn-press"
-              style={{
-                display: 'inline-block', background: 'transparent', color: tallerTheme.ink,
-                border: `1px solid ${tallerTheme.line}`, padding: '14px 22px',
-                fontFamily: 'Inter, sans-serif', fontSize: 13, textDecoration: 'none',
-              }}
-            >Coordinar visita →</a>
+          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 10 }}>
+            <a href="https://share.google/8zOYhOeMVaAYIfxt7" target="_blank" rel="noopener noreferrer" className="mm-btn-press"
+              style={{ display: 'block', background: tallerTheme.accent, color: tallerTheme.bg, padding: '14px 22px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 13, textDecoration: 'none', textAlign: 'center' }}>
+              Ver en Google Maps →
+            </a>
+            <a href="https://wa.me/573016302712?text=Hola%20Maderas%20Montoya%2C%20quisiera%20visitar%20sus%20instalaciones" target="_blank" rel="noopener noreferrer" className="mm-btn-press"
+              style={{ display: 'block', background: 'transparent', color: tallerTheme.ink, border: `1px solid ${tallerTheme.line}`, padding: '14px 22px', fontFamily: 'Inter, sans-serif', fontSize: 13, textDecoration: 'none', textAlign: 'center' }}>
+              Coordinar visita →
+            </a>
           </div>
         </div>
 
@@ -1281,15 +1285,15 @@ function TallerUbicacion() {
               title="Maderas Montoya — Soacha, Cundinamarca"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31817.024970603874!2d-74.25146341323851!3d4.570992043047561!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9f3566b96b75%3A0xf5f9f149d21a23fd!2smaderas%20montoya!5e0!3m2!1ses-419!2sco!4v1777263354376!5m2!1ses-419!2sco"
               width="100%"
-              height="420"
+              height={isMobile ? 260 : 420}
               style={{ display: 'block', border: 'none', filter: 'grayscale(0.3) contrast(1.05)' }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
             />
           </div>
-          <div style={{ background: tallerTheme.bg2, border: `1px solid ${tallerTheme.line}`, borderTop: 'none', padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.muted, letterSpacing: '0.05em' }}>Cra. 11 Este #7G-45 · Soacha · Cundinamarca</span>
+          <div style={{ background: tallerTheme.bg2, border: `1px solid ${tallerTheme.line}`, borderTop: 'none', padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: isMobile ? 10 : 11, color: tallerTheme.muted, letterSpacing: '0.05em' }}>Cra. 11 Este #7G-45 · Soacha</span>
             <a href="https://share.google/8zOYhOeMVaAYIfxt7" target="_blank" rel="noopener noreferrer"
                style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.accent, letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none' }}>
               Abrir mapa ↗
