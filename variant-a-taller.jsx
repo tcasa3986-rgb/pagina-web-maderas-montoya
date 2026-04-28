@@ -1006,7 +1006,46 @@ function TallerEquipo() {
 }
 
 function TallerFormLargo() {
+  const GHL_WEBHOOK = 'https://services.leadconnectorhq.com/hooks/pPGVXzQYwQIgJ2l9y9hA/webhook-trigger/a62df01f-62d8-4e8b-9144-799025ec24ea';
   const [sent, setSent] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
+  const [error, setError] = React.useState('');
+  const [fields, setFields] = React.useState({ nombre: '', empresa: '', cargo: '', email: '', telefono: '', servicio: 'Reparación de estibas', mensaje: '' });
+
+  const set = k => e => setFields(f => ({ ...f, [k]: e.target.value }));
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    setSending(true);
+    setError('');
+    try {
+      await fetch(GHL_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: fields.nombre.split(' ')[0],
+          lastName: fields.nombre.split(' ').slice(1).join(' '),
+          email: fields.email,
+          phone: fields.telefono,
+          companyName: fields.empresa,
+          customField: { cargo: fields.cargo, servicio: fields.servicio, mensaje: fields.mensaje },
+          tags: ['web-formulario'],
+          source: 'Formulario Web maderasmontoyaa.com',
+        }),
+      });
+      setSent(true);
+    } catch {
+      setError('Error al enviar. Escríbenos por WhatsApp al 301 630 2712.');
+    } finally {
+      setSending(false);
+    }
+  };
+
+  const inputStyle = { width: '100%', background: tallerTheme.bg, border: `1px solid ${tallerTheme.line2}`, padding: '14px 16px', fontFamily: 'Inter, sans-serif', fontSize: 14, color: tallerTheme.ink, outline: 'none', boxSizing: 'border-box' };
+  const labelStyle = { display: 'block', fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.muted, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 };
+  const focus = e => e.target.style.borderColor = tallerTheme.accent;
+  const blur  = e => e.target.style.borderColor = tallerTheme.line2;
+
   return (
     <section data-reveal style={{ background: 'rgba(20,17,15,0.85)', padding: '120px 56px', borderTop: `1px solid ${tallerTheme.line2}` }}>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 80 }}>
@@ -1035,30 +1074,30 @@ function TallerFormLargo() {
 
         <div style={{ background: tallerTheme.bg2, padding: 48, border: `1px solid ${tallerTheme.line2}` }}>
           {!sent ? (
-            <form onSubmit={e => { e.preventDefault(); setSent(true); }}>
-              {[
-                { l: 'Nombre completo *', t: 'text', req: true },
-                { l: 'Empresa', t: 'text' },
-                { l: 'Cargo', t: 'text' },
-                { l: 'Correo electrónico *', t: 'email', req: true },
-                { l: 'Teléfono / WhatsApp *', t: 'tel', req: true },
-              ].map(f => (
-                <div key={f.l} style={{ marginBottom: 20 }}>
-                  <label style={{ display: 'block', fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.muted, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>{f.l}</label>
-                  <input type={f.t} required={f.req} style={{
-                    width: '100%', background: tallerTheme.bg, border: `1px solid ${tallerTheme.line2}`,
-                    padding: '14px 16px', fontFamily: 'Inter, sans-serif', fontSize: 14, color: tallerTheme.ink,
-                    outline: 'none',
-                  }} onFocus={e => e.target.style.borderColor = tallerTheme.accent} onBlur={e => e.target.style.borderColor = tallerTheme.line2} />
-                </div>
-              ))}
-
+            <form onSubmit={handleSubmit}>
               <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.muted, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>Tipo de servicio</label>
-                <select style={{
-                  width: '100%', background: tallerTheme.bg, border: `1px solid ${tallerTheme.line2}`,
-                  padding: '14px 16px', fontFamily: 'Inter, sans-serif', fontSize: 14, color: tallerTheme.ink,
-                }}>
+                <label style={labelStyle}>Nombre completo *</label>
+                <input type="text" required value={fields.nombre} onChange={set('nombre')} style={inputStyle} onFocus={focus} onBlur={blur} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>Empresa</label>
+                <input type="text" value={fields.empresa} onChange={set('empresa')} style={inputStyle} onFocus={focus} onBlur={blur} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>Cargo</label>
+                <input type="text" value={fields.cargo} onChange={set('cargo')} style={inputStyle} onFocus={focus} onBlur={blur} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>Correo electrónico *</label>
+                <input type="email" required value={fields.email} onChange={set('email')} style={inputStyle} onFocus={focus} onBlur={blur} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>Teléfono / WhatsApp *</label>
+                <input type="tel" required value={fields.telefono} onChange={set('telefono')} style={inputStyle} onFocus={focus} onBlur={blur} />
+              </div>
+              <div style={{ marginBottom: 20 }}>
+                <label style={labelStyle}>Tipo de servicio</label>
+                <select value={fields.servicio} onChange={set('servicio')} style={inputStyle} onFocus={focus} onBlur={blur}>
                   <option>Reparación de estibas</option>
                   <option>Compra de estibas nuevas/usadas</option>
                   <option>Venta de estibas</option>
@@ -1067,18 +1106,15 @@ function TallerFormLargo() {
                   <option>Varios servicios / no estoy seguro</option>
                 </select>
               </div>
-
               <div style={{ marginBottom: 28 }}>
-                <label style={{ display: 'block', fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.muted, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>Mensaje * — cuéntanos tu necesidad</label>
-                <textarea required rows="5" style={{
-                  width: '100%', background: tallerTheme.bg, border: `1px solid ${tallerTheme.line2}`,
-                  padding: '14px 16px', fontFamily: 'Inter, sans-serif', fontSize: 14, color: tallerTheme.ink,
-                  resize: 'vertical', outline: 'none',
-                }} placeholder="Ej: Tenemos 500 estibas Tipo Norma en planta que necesitan evaluación..." />
+                <label style={labelStyle}>Mensaje * — cuéntanos tu necesidad</label>
+                <textarea required rows="5" value={fields.mensaje} onChange={set('mensaje')} style={{ ...inputStyle, resize: 'vertical' }} onFocus={focus} onBlur={blur} placeholder="Ej: Tenemos 500 estibas Tipo Norma en planta que necesitan evaluación..." />
               </div>
 
-              <button type="submit" className="mm-btn-press" style={{ width: '100%', background: tallerTheme.accent, color: tallerTheme.bg, border: 'none', padding: '20px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 15, cursor: 'pointer' }}>
-                Enviar mensaje →
+              {error && <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#e05c5c', marginBottom: 16 }}>{error}</div>}
+
+              <button type="submit" disabled={sending} className="mm-btn-press" style={{ width: '100%', background: sending ? tallerTheme.bg3 : tallerTheme.accent, color: sending ? tallerTheme.muted : tallerTheme.bg, border: 'none', padding: '20px', fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 15, cursor: sending ? 'not-allowed' : 'pointer' }}>
+                {sending ? 'Enviando...' : 'Enviar mensaje →'}
               </button>
               <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.muted, marginTop: 16, letterSpacing: '0.05em', lineHeight: 1.5 }}>
                 * Al enviar aceptas la política de tratamiento de datos. Nunca compartimos tu información.
