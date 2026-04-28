@@ -847,7 +847,8 @@ function TallerBlog() {
               )}
               <div style={{ padding: 24 }}>
                 <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10, color: tallerTheme.accent, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 12 }}>{a.cat} · {a.read}</div>
-                <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: 22, color: tallerTheme.ink, lineHeight: 1.15, margin: 0, letterSpacing: '-0.01em' }}>{a.t}</h3>
+                <h3 style={{ fontFamily: 'Fraunces, serif', fontWeight: 500, fontSize: 22, color: tallerTheme.ink, lineHeight: 1.15, margin: '0 0 14px', letterSpacing: '-0.01em' }}>{a.t}</h3>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: tallerTheme.muted }}>César Granados · Maderas Montoya</div>
               </div>
             </article>
           </a>
@@ -1150,7 +1151,7 @@ function TallerFooter() {
         <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: tallerTheme.ink2, lineHeight: 1.6, margin: '0 0 8px', maxWidth: 320 }}>
           Empresa colombiana en Soacha, Cundinamarca. +12 años recolectando, reutilizando y aprovechando estibas de madera.
         </p>
-        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.muted }}>NIT 901.XXX.XXX-X</div>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.muted }}>NIT 902.028.966</div>
       </div>
 
       {/* Grid de columnas */}
