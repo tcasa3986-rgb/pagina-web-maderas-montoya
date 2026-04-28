@@ -1028,7 +1028,7 @@ function TallerFormLargo() {
           email: fields.email,
           phone: fields.telefono,
           companyName: fields.empresa,
-          customField: { cargo: fields.cargo, servicio: fields.servicio, mensaje: fields.mensaje },
+          description: `Cargo: ${fields.cargo}\nServicio: ${fields.servicio}\nMensaje: ${fields.mensaje}`,
           tags: ['web-formulario'],
           source: 'Formulario Web maderasmontoyaa.com',
         }),
