@@ -1077,16 +1077,15 @@ function TallerWhatsAppFloat() {
 }
 
 function TallerFooter() {
+  const { isMobile } = useBreakpoint();
+
   const col = (title, links) => (
     <div key={title}>
-      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.accent, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 20 }}>{title}</div>
+      <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.accent, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 14 }}>{title}</div>
       {links.map(([label, href]) => (
-        <div key={label} style={{ padding: '6px 0' }}>
+        <div key={label} style={{ padding: '5px 0' }}>
           {href
-            ? <a href={href} style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: tallerTheme.ink2, textDecoration: 'none', transition: 'color 0.2s' }}
-                onMouseEnter={e => e.target.style.color = tallerTheme.accent}
-                onMouseLeave={e => e.target.style.color = tallerTheme.ink2}
-              >{label}</a>
+            ? <a href={href} style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: tallerTheme.ink2, textDecoration: 'none' }}>{label}</a>
             : <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: tallerTheme.ink2 }}>{label}</span>
           }
         </div>
@@ -1095,18 +1094,23 @@ function TallerFooter() {
   );
 
   return (
-    <footer style={{ background: '#0e0c0a', borderTop: `1px solid ${tallerTheme.line}`, padding: '80px 56px 40px', position: 'relative', zIndex: 2 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr 1fr', gap: 40, marginBottom: 56 }}>
+    <footer style={{ background: '#0e0c0a', borderTop: `1px solid ${tallerTheme.line}`, padding: isMobile ? '48px 16px 32px' : '80px 56px 40px', position: 'relative', zIndex: 2 }}>
 
-        {/* Columna 1 — Marca */}
-        <div>
-          <MMMark size={64} />
-          <div style={{ fontFamily: 'Fraunces, serif', fontSize: 26, color: tallerTheme.ink, marginTop: 16, letterSpacing: '-0.01em' }}>Maderas Montoya</div>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: tallerTheme.ink2, lineHeight: 1.6, marginTop: 12, maxWidth: 300 }}>
-            Empresa colombiana en Soacha, Cundinamarca. +12 años recolectando, reutilizando y aprovechando estibas de madera bajo normatividad ambiental vigente.
-          </p>
-          <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 12, color: tallerTheme.muted, marginTop: 12 }}>NIT 901.XXX.XXX-X</div>
+      {/* Marca — siempre arriba */}
+      <div style={{ marginBottom: isMobile ? 32 : 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+          <MMMark size={isMobile ? 48 : 64} />
+          <div style={{ fontFamily: 'Fraunces, serif', fontSize: isMobile ? 20 : 26, color: tallerTheme.ink, letterSpacing: '-0.01em' }}>Maderas Montoya</div>
         </div>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: tallerTheme.ink2, lineHeight: 1.6, margin: '0 0 8px', maxWidth: 320 }}>
+          Empresa colombiana en Soacha, Cundinamarca. +12 años recolectando, reutilizando y aprovechando estibas de madera.
+        </p>
+        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.muted }}>NIT 901.XXX.XXX-X</div>
+      </div>
+
+      {/* Grid de columnas */}
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : '1.4fr 1fr 1fr 1fr 1fr', gap: isMobile ? '28px 20px' : 40, marginTop: isMobile ? 0 : 48, marginBottom: isMobile ? 32 : 56 }}>
+        {!isMobile && <div />}
 
         {col('Servicios', [
           ['Reparación in-situ', '#servicios'],
@@ -1116,27 +1120,25 @@ function TallerFooter() {
         ])}
 
         {col('Empresa', [
-          ['Equipo',            '#nosotros'],
+          ['Nosotros',          '#nosotros'],
           ['Casos de éxito',    '#casos'],
           ['Blog',              'blog/index.html'],
-          ['Certificaciones',   '#certificaciones'],
         ])}
 
         {col('Legal', [
-          ['Política de Privacidad',          'privacidad.html'],
-          ['Términos y Condiciones',           'terminos.html'],
-          ['Tratamiento de Datos (Ley 1581)', 'privacidad.html#datos'],
+          ['Privacidad',        'privacidad.html'],
+          ['Términos',          'terminos.html'],
         ])}
 
         {col('Contacto', [
-          ['+57 301 630 2712',                        'tel:+573016302712'],
-          ['solucioneslogistas@maderasmontoyaa.com',  'mailto:solucioneslogistas@maderasmontoyaa.com'],
-          ['Cra. 11 Este #7G-45, Soacha',             null],
-          ['Cundinamarca · Colombia',                  null],
+          ['+57 301 630 2712',   'tel:+573016302712'],
+          ['Escribir correo',    'mailto:solucioneslogistas@maderasmontoyaa.com'],
+          ['Cra. 11 Este #7G-45', null],
+          ['Soacha, Colombia',   null],
         ])}
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 24, borderTop: `1px solid ${tallerTheme.line2}`, fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.muted, letterSpacing: '0.05em' }}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', gap: 8, paddingTop: 20, borderTop: `1px solid ${tallerTheme.line2}`, fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: tallerTheme.muted, letterSpacing: '0.05em' }}>
         <div>© 2026 Maderas Montoya · Todos los derechos reservados</div>
         <div>Soacha · Cundinamarca · Colombia</div>
       </div>
